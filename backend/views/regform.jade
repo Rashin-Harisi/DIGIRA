@@ -1,0 +1,114 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Registration Form
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f3f3f3;
+      }
+      .form-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+      .register-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .register-btn:hover {
+        background-color: #0056b3;
+      }
+  body
+    .form-container
+      h2 Register
+      form#registrationForm
+        .form-group
+          label(for="name") Name
+          input#name(type="text" name="name" required)
+        .form-group
+          label(for="username") Username
+          input#username(type="text" name="username" required)
+        .form-group
+          label(for="email") Email
+          input#email(type="email" name="email" required)
+        .form-group
+          label(for="password") Password
+          input#password(type="password" name="password" required)
+        .form-group
+          label(for="phone") Phone Number
+          input#phone(type="tel" name="phone" required)
+        button.register-btn#registerButton(type="button") Register
+    script.
+      document.getElementById('registerButton').addEventListener('click', async function () {
+        const name = document.getElementById('name').value;
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value;
+
+        if (!name || !username || !email || !password || !phone) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, username, email, password, phone }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(`Registration Successful: ${result.message}`);
+            } else {
+                alert(`Registration Failed: ${result.error || 'An error occurred'}`);
+            }
+        } catch (err) {
+            alert('An error occurred while processing your request.');
+            console.error(err);
+        }
+        });

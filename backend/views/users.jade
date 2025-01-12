@@ -1,0 +1,58 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title User Data
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f3f3f3;
+      }
+      .data-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
+      }
+      .data-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .user-details {
+        display: flex;
+        flex-wrap: wrap;  /* Allow text to wrap on smaller screens */
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .data-item {
+        font-weight: bold;
+        color: #555;
+      }
+      .data-value {
+        color: #333;
+      }
+  body
+    .data-container
+      h2 User Information
+      if users && users.length
+        each user in users
+          .user-details
+            .data-item Name:
+            .data-value= user.name
+            .data-item Username:
+            .data-value= user.username
+            .data-item Phone:
+            .data-value= user.phone
+            .data-item Password:
+            .data-value= user.password
+            .data-item Email:
+            .data-value= user.email
