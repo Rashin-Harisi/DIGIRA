@@ -3,13 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
+
+const connectDB = require("./lib/db");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const connectDB = require("./lib/db");
 var reg_form = require('./routes/regform')
-var register = require('./routes/register')
-const cors = require('cors');
+var signup = require('./routes/signup')
+const verification = require('./routes/verification')
+const verifyotp = require('./routes/verifyotp')
 
 
 
@@ -33,7 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/regform', reg_form);
-app.post('/register', register)
+app.use('/verification',verification)
+app.post('/signup', signup)
+app.post('/verifyotp', verifyotp)
+
 
 
 

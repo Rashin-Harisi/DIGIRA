@@ -60,52 +60,41 @@ html(lang="en")
       }
   body
     .form-container
-      h2 Register
-      form#registrationForm
-        .form-group
-          label(for="name") Name
-          input#name(type="text" name="name" required)
-        .form-group
-          label(for="username") Username
-          input#username(type="text" name="username" required)
+      h2 Verification
+      form#otpForm
         .form-group
           label(for="email") Email
           input#email(type="email" name="email" required)
         .form-group
-          label(for="password") Password
-          input#password(type="password" name="password" required)
-        .form-group
-          label(for="phone") Phone Number
-          input#phone(type="tel" name="phone" required)
-        button.register-btn#registerButton(type="button") Register
+          label(for="otp") OTP code
+          input#otp(type="text" name="otp" required)
+        button.register-btn#verifyButton(type="button") Verify
     script.
-      document.getElementById('registerButton').addEventListener('click', async function () {
-        const name = document.getElementById('name').value;
-        const username = document.getElementById('username').value;
+      document.getElementById('verifyButton').addEventListener('click', async function () {
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const phone = document.getElementById('phone').value;
+        const otp = document.getElementById('otp').value;
+        
 
-        if (!name || !username || !email || !password || !phone) {
+        if (!email || !otp) {
           alert('Please fill in all fields.');
           return;
         }
 
         try {
-            const response = await fetch('/signup', {
+            const response = await fetch('/verifyotp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, username, email, password, phone }),
+                body: JSON.stringify({ email,otp }),
             });
 
             const result = await response.json();
 
             if (response.ok) {
-                 window.location.href = '/verification'
+                alert(`Verification Successful: ${result.message}`);
             } else {
-                alert(`Registration Failed: ${result.error || 'An error occurred'}`);
+                alert(`Verification Failed: ${result.error || 'An error occurred'}`);
             }
         } catch (err) {
             alert('An error occurred while processing your request.');
