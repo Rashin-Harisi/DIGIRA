@@ -10,3 +10,6 @@ body{
 .signup_buttons{
     @apply  border-b border-[#ECF39E] w-[150px] rounded-md hover:bg-[#90A955] transition duration-300
 }
+input{
+    color : black;
+}

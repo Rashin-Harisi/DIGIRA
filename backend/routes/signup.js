@@ -5,12 +5,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const { hash } = require('bcrypt');
 const { sendVerificationEmail } = require('../utils/sendEmail');
+const Admin = require('../models/Admin');
+const Seller = require('../models/Seller');
 
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 router.post('/signup',async function(req,res,next){
-    const { name, username, email, password, phone } = req.body;
+    const { name, username, email, password, phone, role,business_number,address } = req.body;
 
     const hashedPass = await hash(password,12);
 
@@ -18,23 +21,59 @@ router.post('/signup',async function(req,res,next){
         return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    const existingUser = await MyUser.findOne({email : {$eq: email}})
-    if(existingUser){
-        return res.status(400).json({ error: 'The user is already existed!' });
-    }
-
     const otp = Math.floor(Math.random() * 1000000);
     const expireTime_otp = Date.now() + 5 * 60 * 1000;
-    
-    var user = new MyUser;
-    user.name = name;
-    user.username = username;
-    user.email = email;
-    user.phone = phone;
-    user.password = hashedPass;
-    user.otp = otp;
-    user.otpExpiresAt = expireTime_otp;
-    user.isVerified= false;
+
+    if(role === "USER"){
+        const existingUser = await MyUser.findOne({email : {$eq: email}})
+        if(existingUser){
+            return res.status(400).json({ error: 'The user is already existed!' });
+        }
+        var user = new MyUser;
+        user.role = "USER"
+        user.name = name;
+        user.username = username;
+        user.email = email;
+        user.phone = phone;
+        user.password = hashedPass;
+        user.otp = otp;
+        user.otpExpiresAt = expireTime_otp;
+        user.isVerified= false;
+
+    }else if(role === "ADMIN"){
+        const existingAdmin = await Admin.findOne({email : {$eq: email}})
+        if(existingAdmin){
+            return res.status(400).json({ error: 'The admin is already existed!' });
+        }
+        var admin= new Admin;
+        admin.role = "ADMIN"
+        admin.name = name;
+        admin.username = username;
+        admin.email = email;
+        admin.phone = phone;
+        admin.password = hashedPass;
+        admin.otp = otp;
+        admin.otpExpiresAt = expireTime_otp;
+        admin.isVerified= false;
+
+    }else{
+        const existingSeller = await Seller.findOne({email : {$eq: email}})
+        if(existingSeller){
+            return res.status(400).json({ error: 'The seller is already existed!' });
+        }
+        var seller = new Seller;
+        seller.role = "BUSINESS_MAN"
+        seller.name = name;
+        seller.username = username;
+        seller.email = email;
+        seller.phone = phone;
+        seller.business_number = business_number;
+        seller.address = address;
+        seller.password = hashedPass;
+        seller.otp = otp;
+        seller.otpExpiresAt = expireTime_otp;
+        seller.isVerified= false;
+    }
     
     const emailSent = await sendVerificationEmail(email,otp);
     console.log("email",emailSent)
@@ -43,11 +82,16 @@ router.post('/signup',async function(req,res,next){
         return res.status(500).json({ error: 'Failed to send verification email.' });
     }
 
-    await user.save();
-
-    res.status(200).json({ message: 'Verification code sent to your email.' });
-    
-   
+    if(role === "USER"){
+        await user.save();
+        res.status(200).json({status:true, message: 'Verification code sent to your email.' , data: user})
+    }else if(role === "ADMIN"){
+        await admin.save()
+        res.status(200).json({status:true, message: 'Verification code sent to your email.', data : admin })
+    }else{
+        await seller.save()
+        res.status(200).json({status:true, message: 'Verification code sent to your email.', data: seller });   
+    }
 })
 
 module.exports= router;

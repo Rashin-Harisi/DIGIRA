@@ -1,9 +1,11 @@
+import useUserStore from "./store/userStore";
 
 
 function App() {
-
+  const user = useUserStore((state) => state.user);
+  console.log(user);
   return (
-      <p>Hi form app</p>
+      <p>Hi {user.name}</p>
   );
 }
 

@@ -13,6 +13,8 @@ var reg_form = require('./routes/regform')
 var signup = require('./routes/signup')
 const verification = require('./routes/verification')
 const verifyotp = require('./routes/verifyotp')
+var signin = require('./routes/signin');
+
 
 
 
@@ -39,6 +41,7 @@ app.use('/regform', reg_form);
 app.use('/verification',verification)
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
+app.post('/signin',signin)
 
 
 

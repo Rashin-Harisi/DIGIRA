@@ -1,20 +1,6 @@
 var db = require("../lib/db");
 
-const PaymentSchema = new db.Schema(
-  {
-    userId: {
-      type: db.Schema.Types.ObjectId,
-      ref: "UserSchema",
-    },
-    date: { type: Date },
-    time: { type: Date },
-    amount: { type: Number },
-    status: { type: String },
-  },
-  { versionKey: false }
-);
-
-const UserSchema = new db.Schema(
+const AdminSchema = new db.Schema(
   {
     username: {
       type: String,
@@ -28,6 +14,7 @@ const UserSchema = new db.Schema(
     },
     email: {
       type: String,
+      unique: true,
       required: true,
     },
     phone: {
@@ -45,7 +32,7 @@ const UserSchema = new db.Schema(
     },
     role: {
       type: String,
-      default: "USER"
+      default: "ADMIN"
     },
     addresses: [
       {
@@ -57,8 +44,6 @@ const UserSchema = new db.Schema(
         postalCode: { type: Number, required: true },
       },
     ],
-    orders: [],
-    payments: [PaymentSchema],
     otp: { type: Number },
     otpExpiresAt: { type: Date },
     isVerified: { type: Boolean, default: false },
@@ -66,6 +51,6 @@ const UserSchema = new db.Schema(
   { versionKey: false }
 );
 
-var MyUser = db.mongoose1.model("User", UserSchema);
+var Admin = db.mongoose1.model("Admin", AdminSchema);
 
-module.exports = MyUser;
+module.exports = Admin;
