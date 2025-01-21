@@ -110,7 +110,7 @@ const Signup = () => {
     console.log(data);
     if(data.status){
       setUser(data.data)
-      navigate("/")
+      navigate("/submitProduct")
     }
 
   }

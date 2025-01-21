@@ -23,7 +23,7 @@ const Signin = () => {
     const data = await response.json();
     if(data.status){
       setUser(data.data)
-      navigate('/')
+      navigate('/submitProduct')
     }
   }
   return (
