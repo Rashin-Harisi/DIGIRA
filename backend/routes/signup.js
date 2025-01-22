@@ -7,6 +7,7 @@ const { hash } = require('bcrypt');
 const { sendVerificationEmail } = require('../utils/sendEmail');
 const Admin = require('../models/Admin');
 const Seller = require('../models/Seller');
+const { generateToken } = require('../utils/jwt');
 
 
 app.use(bodyParser.json());
@@ -24,11 +25,14 @@ router.post('/signup',async function(req,res,next){
     const otp = Math.floor(Math.random() * 1000000);
     const expireTime_otp = Date.now() + 5 * 60 * 1000;
 
+    const existingUser = await MyUser.findOne({email : {$eq: email}})
+    const existingAdmin = await Admin.findOne({email : {$eq: email}})
+    const existingSeller = await Seller.findOne({email : {$eq: email}})
+    if(existingSeller || existingAdmin || existingUser){
+        return res.status(400).json({ error: 'The email address is already registered!' });
+    }
+
     if(role === "USER"){
-        const existingUser = await MyUser.findOne({email : {$eq: email}})
-        if(existingUser){
-            return res.status(400).json({ error: 'The user is already existed!' });
-        }
         var user = new MyUser;
         user.role = "USER"
         user.name = name;
@@ -41,10 +45,6 @@ router.post('/signup',async function(req,res,next){
         user.isVerified= false;
 
     }else if(role === "ADMIN"){
-        const existingAdmin = await Admin.findOne({email : {$eq: email}})
-        if(existingAdmin){
-            return res.status(400).json({ error: 'The admin is already existed!' });
-        }
         var admin= new Admin;
         admin.role = "ADMIN"
         admin.name = name;
@@ -57,10 +57,6 @@ router.post('/signup',async function(req,res,next){
         admin.isVerified= false;
 
     }else{
-        const existingSeller = await Seller.findOne({email : {$eq: email}})
-        if(existingSeller){
-            return res.status(400).json({ error: 'The seller is already existed!' });
-        }
         var seller = new Seller;
         seller.role = "BUSINESS_MAN"
         seller.name = name;
@@ -84,13 +80,16 @@ router.post('/signup',async function(req,res,next){
 
     if(role === "USER"){
         await user.save();
-        res.status(200).json({status:true, message: 'Verification code sent to your email.' , data: user})
+        const token = generateToken(user)
+        res.status(200).json({status:true, message: 'Verification code sent to your email.' , data: user, token: token})
     }else if(role === "ADMIN"){
         await admin.save()
-        res.status(200).json({status:true, message: 'Verification code sent to your email.', data : admin })
+        const token = generateToken(admin)
+        res.status(200).json({status:true, message: 'Verification code sent to your email.', data : admin, token:token })
     }else{
         await seller.save()
-        res.status(200).json({status:true, message: 'Verification code sent to your email.', data: seller });   
+        const token = generateToken(seller)
+        res.status(200).json({status:true, message: 'Verification code sent to your email.', data: seller, token: token });   
     }
 })
 

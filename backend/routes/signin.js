@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const Seller = require('../models/Seller');
 const Admin = require('../models/Admin');
 const { compare } = require('bcrypt');
+const { generateToken } = require('../utils/jwt');
 const app = express();
 
 app.use(bodyParser.json());
@@ -41,7 +42,10 @@ router.post('/signin', async function(req,res,next ) {
         return res.status(400).json({ error: 'Username or Password is not correct.' });
     }
 
-    return res.status(200).json({status: true, message: "user successfully logged in.", data : details})
+    const token = generateToken(details)
+    //console.log(token);
+
+    return res.status(200).json({status: true, message: "user successfully logged in.", data : details, token:token})
 
    
 });

@@ -15,6 +15,11 @@ const Receive_Payment_Schema = new db.Schema(
 );
 
 const SellerSchema = new db.Schema({
+	name:{
+		type: String,
+		unique: true,
+		required: true,
+	},
 	username: {
 		type: String,
 		unique: true,

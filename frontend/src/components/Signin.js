@@ -4,6 +4,7 @@ import useUserStore from '../store/userStore';
 
 const Signin = () => {
   const setUser = useUserStore((state) => state.setUser);
+  const setToken = useUserStore((state)=>state.setToken)
   const navigate = useNavigate();
 
   const signinSubmit = async(e)=>{
@@ -21,9 +22,11 @@ const Signin = () => {
       }
     })
     const data = await response.json();
+  
     if(data.status){
+      setToken(data.token)
       setUser(data.data)
-      navigate('/submitProduct')
+      navigate('/')
     }
   }
   return (

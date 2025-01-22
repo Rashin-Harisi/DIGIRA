@@ -29,6 +29,7 @@ const UserSchema = new db.Schema(
     email: {
       type: String,
       required: true,
+      unique: true
     },
     phone: {
       type: Number,

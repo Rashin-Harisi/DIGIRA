@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import useUserStore from "../store/userStore";
+import React, {  useState } from "react";
+import useUser from "../hooks/useUser";
+
 
 
 const SubmitProduct = () => {
   const [images, setImages] = useState([null, null, null, null]);
-  const user = useUserStore((state) => state.user);
-  if(user.role !== "BUSINESS_MAN"){
+  const userInfo = useUser();
+
+ 
+
+  if(userInfo && userInfo.role !== "BUSINESS_MAN"){
     return (
       <p className="text-center">You are not authorize to enter this page.</p>
     )
@@ -14,7 +18,7 @@ const SubmitProduct = () => {
   const handleImage = (index, file) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
-      updatedImages[index] = file; // store the actual File object
+      updatedImages[index] = file; 
       return updatedImages;
     });
   };
@@ -43,7 +47,7 @@ const SubmitProduct = () => {
       discount: form_info.discount.value || "",
       images: form_data,
       quantity: form_info.quantity.value,
-      sellerId: user._id || ""
+      sellerId: userInfo._id || ""
     };
 
     console.log(newProduct);
@@ -53,7 +57,7 @@ const SubmitProduct = () => {
       <fieldset className="border border-[#ECF39E]">
         <legend className="px-2">SUBMIT A PRODUCT TO SELL</legend>
         <div className="border-b border-[#ECF39E] h-16 py-[12px]">
-          <p className="text-center">Seller info - sellerId</p>
+          <p className="text-center">Seller info - Name: {userInfo?.name} , and ID: {userInfo?._id}</p>
         </div>
         <form className="flex flex-col" onSubmit={productSubmit}>
           <label htmlFor="name" className="label_submitProduct">

@@ -8,6 +8,7 @@ const Signup = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const buttons = ["User", "Business", "Admin"];
   const setUser = useUserStore((state) => state.setUser);
+  const setToken = useUserStore((state)=>state.setToken)
   const role = useUserStore((state) => state.role);
   const navigate = useNavigate();
 
@@ -36,6 +37,7 @@ const Signup = () => {
     if(data.status){
       setIsSubmitted(true);
       setUser(data.data)
+      setToken(data.token)
     }
   }
   const sellerSubmit = async(e)=>{
@@ -61,7 +63,8 @@ const Signup = () => {
       const data = await response.json();
       if(data.status){
         setIsSubmitted(true);
-        setUser(data.data)
+        setUser(data.data);
+        setToken(data.token);
       }
 
   }
@@ -86,7 +89,8 @@ const Signup = () => {
     const data = await response.json();
     if(data.status ){
       setIsSubmitted(true);
-      setUser(data.data)
+      setUser(data.data);
+      setToken(data.token)
     }
     
   }
@@ -107,10 +111,10 @@ const Signup = () => {
       }
     })
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     if(data.status){
       setUser(data.data)
-      navigate("/submitProduct")
+      navigate("/")
     }
 
   }

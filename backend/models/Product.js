@@ -34,6 +34,11 @@ const ProductSchema = new db.Schema({
 		type: String,
 		enum: ["accepted" , "declined", "waiting"]
 	},
+	createdAt: {
+		type: Date,
+		default: ()=> Date.now(),
+		immutable: true,
+	},
 	storage_quantity: {type: Number}
 })
 
