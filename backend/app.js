@@ -8,17 +8,16 @@ const cors = require('cors');
 const connectDB = require("./lib/db");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/getUser');
 var reg_form = require('./routes/regform')
 var signup = require('./routes/signup')
 const verification = require('./routes/verification')
 const verifyotp = require('./routes/verifyotp')
 var signin = require('./routes/signin');
 var submitProduct = require('./routes/submit_product')
-var products = require('./routes/products')
 var approveProduct = require('./routes/approve_product')
 const userProfile= require('./routes/userProfile')
 const getUser  = require('./routes/getUser')
+const getProducts = require('./routes/getProducts')
 
 
 
@@ -43,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/regform', reg_form);
 app.use('/verification',verification)
-app.use('/products',products)
+app.use('/getProducts',getProducts)
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
 app.post('/signin',signin)

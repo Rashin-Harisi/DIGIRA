@@ -1,29 +1,33 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import useUser from "../hooks/useUser";
-
-
 
 const SubmitProduct = () => {
   const [images, setImages] = useState([null, null, null, null]);
   const userInfo = useUser();
+  
 
- 
-
-  if(userInfo && userInfo.role !== "BUSINESS_MAN"){
+  if (userInfo && userInfo.role !== "BUSINESS_MAN") {
     return (
       <p className="text-center">You are not authorize to enter this page.</p>
-    )
+    );
   }
 
   const handleImage = (index, file) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
-      updatedImages[index] = file; 
+      updatedImages[index] = file;
+      return updatedImages;
+    });
+  };
+  const removeImage = (index) => {
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages];
+      updatedImages[index] = null;  
       return updatedImages;
     });
   };
 
-  const productSubmit = (e) => {
+  const productSubmit = async (e) => {
     e.preventDefault();
     const form_info = e.target;
     const form_data = new FormData();
@@ -34,30 +38,38 @@ const SubmitProduct = () => {
     }
     images.forEach((image, index) => {
       if (image) {
-        form_data.append(`image${index + 1}`, image);
+        form_data.append(`images[]`, image);
       }
     });
     const colors = form_info.color.value.split(",");
-    const newProduct = {
-      name: form_info.name.value,
-      company: form_info.company.value,
-      colors: colors,
-      details: form_info.details.value || "",
-      price: form_info.price.value,
-      discount: form_info.discount.value || "",
-      images: form_data,
-      quantity: form_info.quantity.value,
-      sellerId: userInfo._id || ""
-    };
+    form_data.append("name", form_info.name.value);
+    form_data.append("name", form_info.name.value);
+    form_data.append("company", form_info.company.value);
+    form_data.append("colors", colors);
+    form_data.append("details", form_info.details.value || "");
+    form_data.append("price", form_info.price.value);
+    form_data.append("discount", form_info.discount.value || "");
+    form_data.append("quantity", form_info.quantity.value);
+    form_data.append("sellerId", userInfo._id || "");
 
-    console.log(newProduct);
+    const response = await fetch("http://localhost:5000/submitProduct", {
+      method: "POST",
+      body: form_data,
+    });
+    const data = await response.json();
+    if(data.status){
+      alert('Your product is submitted. Please wait until admins approve it.')
+    }
   };
+
   return (
     <div className="w-[85%] mx-auto">
       <fieldset className="border border-[#ECF39E]">
         <legend className="px-2">SUBMIT A PRODUCT TO SELL</legend>
         <div className="border-b border-[#ECF39E] h-16 py-[12px]">
-          <p className="text-center">Seller info - Name: {userInfo?.name} , and ID: {userInfo?._id}</p>
+          <p className="text-center">
+            Seller info - Name: {userInfo?.name} , and ID: {userInfo?._id}
+          </p>
         </div>
         <form className="flex flex-col" onSubmit={productSubmit}>
           <label htmlFor="name" className="label_submitProduct">
@@ -119,11 +131,14 @@ const SubmitProduct = () => {
                   className="mb-[10px]"
                 />
                 {images[index] && (
+                  <div className="flex gap-4">
                   <img
                     src={URL.createObjectURL(images[index])}
                     alt={`Preview ${index + 1}`}
                     className="w-24 h-24 object-cover mt-2"
                   />
+                  <button type="button" onClick={() => removeImage(index)}>X</button>
+                </div>
                 )}
               </div>
             ))}

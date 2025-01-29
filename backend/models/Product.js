@@ -11,11 +11,11 @@ const ProductSchema = new db.Schema({
 		ref: "UserSchema"
 	}],
 	name: {
-		type: String,
+		type: [String],
 		required : true
 	},
 	company: {
-		type: String,
+		type: [String],
 		required : true
 	},
 	price: {
@@ -28,7 +28,7 @@ const ProductSchema = new db.Schema({
 	images: [String],
     colors:[String],
     details:{
-        type: String
+        type: [String]
     },
 	status:{
 		type: String,
