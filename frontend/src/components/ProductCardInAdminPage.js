@@ -6,15 +6,39 @@ const ProductCardInAdminPage = ({ product }) => {
   const [status, setStatus] = useState("");
   let [isOpen, setIsOpen] = useState(true)
   const [note, setNote] = useState("")
-console.log(note);
+
  
-  const submitHandler=()=> {
+  const submitHandler=async()=> {
     setIsOpen(false)
+    const response = await fetch("http://localhost:5000/approveProduct",{
+    method: "POST",
+    body: JSON.stringify({productId : product._id, status: "declined", note : note}),
+      headers: {
+          "Content-Type" : "application/json"
+      } 
+    })
+      const data = await response.json();
+      if(data.status){
+        alert("Product is declined by an Admin.")
+      }
+  
   }
  
-  const approveHandel= ()=>{
+  const approveHandel= async()=>{
     setStatus("approve")
+    const response = await fetch("http://localhost:5000/approveProduct",{
+    method: "POST",
+    body: JSON.stringify({productId : product._id, status: "approved"}),
+      headers: {
+          "Content-Type" : "application/json"
+      } 
+    })
+      const data = await response.json();
+      if(data.status){
+        alert("Product is approved by an Admin.")
+      }
   }
+
   const declineHandle= ()=>{
     setStatus("decline")
     setIsOpen(true)

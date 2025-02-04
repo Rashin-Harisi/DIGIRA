@@ -18,7 +18,13 @@ html {
       calc(2*var(--s)) calc(9*var(--s)/4),
       calc(2*var(--s)) calc(3*var(--s)/4);
   }
-  
+
+  @font-face {
+    font-family: 'PetitFormalScript';
+    src: url('./assets/PetitFormalScript-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
 body{
     color: #ECF39E
 }

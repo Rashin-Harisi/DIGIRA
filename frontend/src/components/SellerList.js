@@ -1,27 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import SellerCard from "./SellerCard";
+import useProducts from "../hooks/useProducts";
 
 const SellerList = () => {
-    const sellers = [{
-        "_id": {
-          "$oid": "6790c3b59bb2829f2cf386f4"
-        },
-        "role": "BUSINESS_MAN",
-        "isVerified": true,
-        "createdAt": {
-          "$date": "2025-01-22T10:08:53.117Z"
-        },
-        "receive_payments": [],
-        "name": "Rara Co.",
-        "username": "rara",
-        "email": "rara.myapps@gmail.com",
-        "phone": 123456789,
-        "business_number": 1254,
-        "address": "Wien",
-        "password": "$2b$12$8bHcMAjqLaEcExYosWC3euWNFLX7N/Pi.QfnNKl.NI51xbF7wYG1G"
-      }]
-  return (
-    <div>{sellers.map((seller)=><li>{seller.name}</li>)}</div>
-  )
-}
+  const products = useProducts();
+  const [sellers, setSellers] = useState(null);
 
-export default SellerList
+  useEffect(() => {
+    const getSellers = async () => {
+      const response = await fetch("http://localhost:5000/getSellers");
+      const data = await response.json();
+     
+      if (data.success) {
+        setSellers(data.data);
+      } else {
+        console.log("Something went wrong in getting sellers info.");
+      }
+    };
+    getSellers();
+  }, []);
+
+  return (
+    <div>
+      {sellers?.length !== 0 ? (
+        <div className="w-[90%] mx-auto mt-5 flex flex-col gap-5">
+          {sellers?.map((seller, index) => (
+            <SellerCard key={index} seller={seller} products={products} />
+          ))}
+        </div>
+      ) : (
+        "Loading..."
+      )}
+    </div>
+  );
+};
+
+export default SellerList;

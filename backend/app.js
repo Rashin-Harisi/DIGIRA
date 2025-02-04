@@ -18,6 +18,7 @@ var approveProduct = require('./routes/approve_product')
 const userProfile= require('./routes/userProfile')
 const getUser  = require('./routes/getUser')
 const getProducts = require('./routes/getProducts')
+const getSellers = require('./routes/getSellers')
 
 
 
@@ -43,6 +44,7 @@ app.use('/', indexRouter);
 app.use('/regform', reg_form);
 app.use('/verification',verification)
 app.use('/getProducts',getProducts)
+app.use('/getSellers', getSellers)
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
 app.post('/signin',signin)

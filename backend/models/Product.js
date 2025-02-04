@@ -32,7 +32,10 @@ const ProductSchema = new db.Schema({
     },
 	status:{
 		type: String,
-		enum: ["accepted" , "declined", "waiting"]
+		enum: ["approved" , "declined", "waiting"]
+	},
+	note:{
+		type: [String]
 	},
 	createdAt: {
 		type: Date,
