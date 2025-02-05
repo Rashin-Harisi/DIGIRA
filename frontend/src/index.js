@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Signin from "./components/Signin";
 import SubmitProduct from "./components/SubmitProduct";
 import AdminPage from "./components/AdminPage";
+import Banner from "./components/Banner";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,6 +22,7 @@ root.render(
           <Route path="/signin" element={<Signin />} />
           <Route path="/submitProduct" element={<SubmitProduct />}/>
           <Route path='/admin' element={<AdminPage />}/>
+          <Route path="/test" element={<Banner />}/>
         </Routes>
       </Layout>
     </BrowserRouter>
