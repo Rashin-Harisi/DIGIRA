@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+//import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -10,6 +10,9 @@ import Signin from "./components/Signin";
 import SubmitProduct from "./components/SubmitProduct";
 import AdminPage from "./components/AdminPage";
 import Banner from "./components/Banner";
+import HomePage from "./components/HomePage";
+import ProductsPage from "./components/ProductsPage";
+import ProductPage from "./components/ProductPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,12 +20,14 @@ root.render(
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/:_id" element={<ProductPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/submitProduct" element={<SubmitProduct />}/>
           <Route path='/admin' element={<AdminPage />}/>
           <Route path="/test" element={<Banner />}/>
+          
         </Routes>
       </Layout>
     </BrowserRouter>

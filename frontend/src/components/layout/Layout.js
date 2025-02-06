@@ -1,7 +1,7 @@
 import React from "react";
 const Layout = ({ children }) => {
   return (
-    <div className="w-[95vw] m-auto my-[20px] bg-[#132A12] px-[10px] flex flex-col min-h-[900px] lg:h-[95vh]">
+    <div className="w-[95vw] m-auto my-[20px] bg-[#132A12] px-[10px] flex flex-col">
       <header className="w-full h-[100px] sm:h-[150px] border-b border-[#ECF39E] flex">
         <div className="my-auto mx-5">
           <img src="logo.png" alt="logo" className="rounded-full " width={130} />
@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </header>
-      <div className="flex-grow py-4 overflow-y-auto">{children}</div>
+      <div className="flex-grow py-4">{children}</div>
       <footer className="w-full h-[50px] border-t border-[#ECF39E]">
         footer
       </footer>

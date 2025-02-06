@@ -5,12 +5,11 @@ import delivery from "../utils/delivery.json";
 import shop from "../utils/shop.json";
 import { motion, AnimatePresence } from "framer-motion";
 import "react-slideshow-image/dist/styles.css";
-import { Slide } from "react-slideshow-image";
 import cloths from "../assets/cloths.jpg";
 import appliance from "../assets/appliance.jpg";
 import book from "../assets/book.jpg";
 import tech from "../assets/tech.jpg";
-import styles from "./test.module.css";
+
 
 const banner = [
   {
