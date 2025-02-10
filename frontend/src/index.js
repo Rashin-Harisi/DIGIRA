@@ -11,8 +11,8 @@ import SubmitProduct from "./components/SubmitProduct";
 import AdminPage from "./components/AdminPage";
 import Banner from "./components/Banner";
 import HomePage from "./components/HomePage";
-import ProductsPage from "./components/ProductsPage";
 import ProductPage from "./components/ProductPage";
+import Profile from "./components/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,6 +27,7 @@ root.render(
           <Route path="/submitProduct" element={<SubmitProduct />}/>
           <Route path='/admin' element={<AdminPage />}/>
           <Route path="/test" element={<Banner />}/>
+          <Route path="/profile" element={<Profile />}/>
           
         </Routes>
       </Layout>

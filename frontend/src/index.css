@@ -49,3 +49,6 @@ input{
 .span_productCard{
   @apply font-medium  
 }
+.input_profile{
+  @apply rounded-xl pl-3
+}

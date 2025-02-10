@@ -11,6 +11,7 @@ import book from "../assets/book.jpg";
 import tech from "../assets/tech.jpg";
 
 
+
 const banner = [
   {
     id: 1,
@@ -49,6 +50,7 @@ const pictures = [
     src: appliance,
     alt: "APPLIANCE"
   },
+
 ];
 
 const Banner = () => {
