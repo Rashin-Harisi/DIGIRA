@@ -7,7 +7,6 @@ import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
-import SubmitProduct from "./components/SubmitProduct";
 import AdminPage from "./components/AdminPage";
 import Banner from "./components/Banner";
 import HomePage from "./components/HomePage";
@@ -24,7 +23,6 @@ root.render(
           <Route path="/:_id" element={<ProductPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
-          <Route path="/submitProduct" element={<SubmitProduct />}/>
           <Route path='/admin' element={<AdminPage />}/>
           <Route path="/test" element={<Banner />}/>
           <Route path="/profile" element={<Profile />}/>

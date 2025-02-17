@@ -6,10 +6,11 @@ import { TbLockPassword } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { AiFillProduct } from "react-icons/ai";
 import { MdOutlinePayment } from "react-icons/md";
+import { TbNewSection } from "react-icons/tb";
 import UserPage from "./UserPage";
 import SellerPage from "./SellerPage";
 
-
+/*
 const user = {
   _id: {
     $oid: "678d07aeb4d06a4bd426bbc2",
@@ -40,7 +41,31 @@ const user = {
   email: "rashin.aharisi1991@gmail.com",
   phone: 123456789,
   password: "$2b$12$XIubebndnZTfK4VBrAUcGu0Y2f6F6Q4MWDNkIOfF6Trlu9wtZwELC",
-};
+};*/
+const user = {
+  "_id": {
+    "$oid": "6790c3b59bb2829f2cf386f4"
+  },
+  "role": "BUSINESS_MAN",
+  "isVerified": true,
+  "createdAt": {
+    "$date": "2025-01-22T10:08:53.117Z"
+  },
+  "receive_payments": [],
+  "name": "Rara Co.",
+  "username": "rara",
+  "email": "rara.myapps@gmail.com",
+  "phone": 123456789,
+  "business_number": 1254,
+  "address": [
+    {
+      city: "Wien",
+      street: "Grogasse",
+      number: 25,
+      postalCode: 1050,
+    }],
+  "password": "$2b$12$8bHcMAjqLaEcExYosWC3euWNFLX7N/Pi.QfnNKl.NI51xbF7wYG1G"
+}
 const userMenu = [
   { name: "Personal Info", component: <RiProfileLine />, id: 1 },
   { name: "Previous purchase", component: <BiPurchaseTagAlt />, id: 2 },
@@ -50,10 +75,11 @@ const userMenu = [
 ];
 const sellerMenu = [
   { name: "Personal Info", component: <RiProfileLine />, id: 1 },
-  { name: "Submitted items ", component: <AiFillProduct />, id: 2 },
-  { name: "Payments", component: <MdOutlinePayment />, id: 3 },
-  { name: "Change password", component: <TbLockPassword />, id: 4 },
-  { name: "Logout", component: <IoMdLogOut />, id: 5 },
+  { name: "Submit new product", component: <TbNewSection />, id: 2 },
+  { name: "Submitted items ", component: <AiFillProduct />, id: 3 },
+  { name: "Payments", component: <MdOutlinePayment />, id: 4 },
+  { name: "Change password", component: <TbLockPassword />, id: 5 },
+  { name: "Logout", component: <IoMdLogOut />, id: 6 },
 ];
 
 const Profile = () => {

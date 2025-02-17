@@ -1,17 +1,8 @@
 import React, { useState } from "react";
-import useUser from "../hooks/useUser";
 
-const SubmitProduct = () => {
+const SubmitProduct = ({user}) => {
   const [images, setImages] = useState([null, null, null, null]);
-  const userInfo = useUser();
   
-
-  if (userInfo && userInfo.role !== "BUSINESS_MAN") {
-    return (
-      <p className="text-center">You are not authorize to enter this page.</p>
-    );
-  }
-
   const handleImage = (index, file) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
@@ -50,7 +41,7 @@ const SubmitProduct = () => {
     form_data.append("price", form_info.price.value);
     form_data.append("discount", form_info.discount.value || "");
     form_data.append("quantity", form_info.quantity.value);
-    form_data.append("sellerId", userInfo._id || "");
+    form_data.append("sellerId", user._id.$iod || "");
 
     const response = await fetch("http://localhost:5000/submitProduct", {
       method: "POST",
@@ -68,7 +59,7 @@ const SubmitProduct = () => {
         <legend className="px-2">SUBMIT A PRODUCT TO SELL</legend>
         <div className="border-b border-[#ECF39E] h-16 py-[12px]">
           <p className="text-center">
-            Seller info - Name: {userInfo?.name} , and ID: {userInfo?._id}
+            Seller info - Name: {user?.name} , and ID: {user?._id.$iod}
           </p>
         </div>
         <form className="flex flex-col" onSubmit={productSubmit}>

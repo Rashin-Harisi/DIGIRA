@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { CiEdit } from "react-icons/ci";
-import { FaCheck } from "react-icons/fa6";
-import { CiCircleRemove } from "react-icons/ci";
 import PersonalInfo from "./PersonalInfo";
 import ProductCardInHomePage from "./ProductCardInHomePage";
 
