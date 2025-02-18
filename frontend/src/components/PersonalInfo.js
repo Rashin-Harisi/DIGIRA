@@ -29,6 +29,9 @@ const PersonalInfo = ({user}) => {
     };
     const newAddressSubmit = (e) => {
       e.preventDefault();
+      if(e.target.city.value === "" || e.target.street.value === "" || e.target.number.value===0 || e.target.postalCode.value===0){
+        alert("PLease fill all fields.")
+      }
       setNewAddress({
         city: e.target.city.value,
         street: e.target.street.value,
@@ -36,7 +39,39 @@ const PersonalInfo = ({user}) => {
         postalCode: e.target.postalCode.value,
       });
       setAddAddressClicked(false);
+      //body: userId , a new address
+      /*
+      const response= await fetch('http://localhost:5000/addNewAddress',{
+      method: "POST",
+      body: JSON.stringify({userId: user._id, new_address: newAddress}),
+      headers: {
+          "Content-Type" : "application/json"
+      }
+    })
+      const data = await response.json();
+      if(data.status){
+        console.log(data.message)
+      }else{
+        console.log("There is a problem in adding new address.")
+      }
+      */
     };
+    const submitHandler = async()=>{
+      //body: userId, editedData
+      const response= await fetch('http://localhost:5000/editPersonalInfo',{
+        method: "POST",
+        body: JSON.stringify({userId: user._id, editedData}),
+        headers: {
+            "Content-Type" : "application/json"
+        }
+      })
+        const data = await response.json();
+        if(data.status){
+          console.log(data.message)
+        }else{
+          console.log("There is a problem in editing personal Info.")
+        }
+    }
   
     const handleAddressChange = (index, field, value) => {
       setEditedDate((prev) => ({
@@ -46,8 +81,22 @@ const PersonalInfo = ({user}) => {
         ),
       }));
     };
-    const removeAddress= (index,address)=>{
-      console.log(address,index);
+
+    const removeAddress=async (index,address)=>{
+       //body: userId, index, address
+      const response= await fetch('http://localhost:5000/removeAddress',{
+        method: "POST",
+        body: JSON.stringify({userId: user._id, index, address}),
+        headers: {
+            "Content-Type" : "application/json"
+        }
+      })
+        const data = await response.json();
+        if(data.status){
+          console.log(data.message)
+        }else{
+          console.log("There is a problem in removing an address.")
+        }
     }
 
   return (
@@ -257,6 +306,7 @@ const PersonalInfo = ({user}) => {
                   onClick={() => {
                     if (editClicked) {
                       console.log("submit clicked");
+                      submitHandler()
                       setEditClicked(false)
                     } else {
                       setEditClicked(true);

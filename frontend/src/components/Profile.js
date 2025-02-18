@@ -43,29 +43,30 @@ const user = {
   password: "$2b$12$XIubebndnZTfK4VBrAUcGu0Y2f6F6Q4MWDNkIOfF6Trlu9wtZwELC",
 };*/
 const user = {
-  "_id": {
-    "$oid": "6790c3b59bb2829f2cf386f4"
+  _id: {
+    $oid: "6790c3b59bb2829f2cf386f4",
   },
-  "role": "BUSINESS_MAN",
-  "isVerified": true,
-  "createdAt": {
-    "$date": "2025-01-22T10:08:53.117Z"
+  role: "BUSINESS_MAN",
+  isVerified: true,
+  createdAt: {
+    $date: "2025-01-22T10:08:53.117Z",
   },
-  "receive_payments": [],
-  "name": "Rara Co.",
-  "username": "rara",
-  "email": "rara.myapps@gmail.com",
-  "phone": 123456789,
-  "business_number": 1254,
-  "address": [
+  receive_payments: [],
+  name: "Rara Co.",
+  username: "rara",
+  email: "rara.myapps@gmail.com",
+  phone: 123456789,
+  business_number: 1254,
+  address: [
     {
       city: "Wien",
       street: "Grogasse",
       number: 25,
       postalCode: 1050,
-    }],
-  "password": "$2b$12$8bHcMAjqLaEcExYosWC3euWNFLX7N/Pi.QfnNKl.NI51xbF7wYG1G"
-}
+    },
+  ],
+  password: "$2b$12$8bHcMAjqLaEcExYosWC3euWNFLX7N/Pi.QfnNKl.NI51xbF7wYG1G",
+};
 const userMenu = [
   { name: "Personal Info", component: <RiProfileLine />, id: 1 },
   { name: "Previous purchase", component: <BiPurchaseTagAlt />, id: 2 },
@@ -83,14 +84,13 @@ const sellerMenu = [
 ];
 
 const Profile = () => {
+  //const user = useUser();
 
   return (
     <>
-      {user?.role === "USER" && (
-        <UserPage user={user} userMenu={userMenu}/>
-      )}
+      {user?.role === "USER" && <UserPage user={user} userMenu={userMenu} />}
       {user?.role === "BUSINESS_MAN" && (
-        <SellerPage user={user} sellerMenu={sellerMenu}/>
+        <SellerPage user={user} sellerMenu={sellerMenu} />
       )}
     </>
   );

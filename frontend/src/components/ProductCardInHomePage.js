@@ -25,29 +25,53 @@ const user= {
 }
 
 const ProductCardInHomePage = (product) => {
+  //const user = useUser();
+  //check whether product or product.product??
   const productN = product.product;
   const [heartClicked, setHeartClicked] = useState(false);
   const navigate = useNavigate();
-  
+   
   useEffect(()=>{
     const result = productN.stars.includes(user._id.$oid)
     if(result){
       setHeartClicked(true)
     }
   },[user])
-  const heartHandle =() => {
+
+  const heartHandle =async() => {
     setHeartClicked((prevState) => !prevState)
     const result = productN.stars.includes(user._id.$oid)
+    var status;
     if (!result && !heartClicked){
       productN.stars.push(user._id.$oid)
+      //body:userId,status:"liked",productId
+      //status = "liked"
       console.log("the id is added",productN.stars);
     }else if(result && heartClicked){
       const index = productN.stars.indexOf(user._id.$oid)
+      //body:userId,status:"unLiked",productId
       if(index!== -1){
         productN.stars.splice(index,1)
       }
+      //status = "unLiked"
       console.log("The id is removed", productN.stars)
     }
+    /**
+     const response= await fetch('http://localhost:5000/likeHandle',{
+      method: "POST",
+      body: JSON.stringify({userId: user._id, productId : product._id, status}),
+      headers: {
+          "Content-Type" : "application/json"
+      }
+    })
+      const data = await response.json()
+      if(data.status){
+        console.log(data.message)
+      }else{
+        console.log(error)
+      }
+
+     */
   }
   return (
     <div className="border w-[30%] min-h-[300px] relative rounded-xl" >

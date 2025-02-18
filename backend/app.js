@@ -19,6 +19,11 @@ const userProfile= require('./routes/userProfile')
 const getUser  = require('./routes/getUser')
 const getProducts = require('./routes/getProducts')
 const getSellers = require('./routes/getSellers')
+const like_handle= require("./routes/like_handle_product")
+const add_new_address = require("./routes/add_new_address")
+const edit_personal_info = require("./routes/edit_personal_info") 
+const remove_address = require("./routes/remove_address")
+const change_password = require("./routes/change_password")
 
 
 
@@ -45,6 +50,10 @@ app.use('/regform', reg_form);
 app.use('/verification',verification)
 app.use('/getProducts',getProducts)
 app.use('/getSellers', getSellers)
+app.use('/editPersonalInfo', edit_personal_info)
+app.use("/removeAddress", remove_address)
+app.use('/changePassword',change_password)
+
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
 app.post('/signin',signin)
@@ -52,6 +61,9 @@ app.post('/submitProduct', submitProduct)
 app.post("/approveProduct",approveProduct);
 app.post('/userProfile',userProfile)
 app.post('/getUser', getUser);
+app.post('/likeHandle', like_handle)
+app.post('/addNewAddress', add_new_address)
+
 
 
 

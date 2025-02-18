@@ -146,6 +146,7 @@ const products = [
   },
 ];
 const ProductsPage = () => {
+  //const products = useProducts(); 
   return (
     <div>
         {products?.length !== 0 ? (

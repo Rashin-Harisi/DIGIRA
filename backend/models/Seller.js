@@ -53,10 +53,14 @@ const SellerSchema = new db.Schema({
 		unique: true,
 		required : true,
 	},
-	address: {
-        type: String,
-        required:true,
-    },
+	addresses: [
+		{
+		  city: { type: String, required: true },
+		  street: { type: String, required: true },
+		  number: { type: Number, required: true },
+		  postalCode: { type: Number, required: true },
+		},
+	  ],
 	receive_payments: [Receive_Payment_Schema],
     otp: { type: Number },
     otpExpiresAt: { type: Date },

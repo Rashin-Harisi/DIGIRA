@@ -146,6 +146,7 @@ const products = [
   },
 ];
 const UserPage = ({ user, userMenu }) => {
+  //const products = useProducts();
   const [index, setIndex] = useState(1);
   const [passwordChanging, setPasswordChanging] = useState({
     currentPassword: "",
@@ -168,7 +169,24 @@ const UserPage = ({ user, userMenu }) => {
   const changePasswordHandler = (e) => {
     e.preventDefault();
     console.log(passwordChanging);
+    /*
+    const response= await fetch('http://localhost:5000/changePassword',{
+      method: "POST",
+      body: JSON.stringify({passwordChanging, userId = user._id}),
+      headers: {
+          "Content-Type" : "application/json"
+      }
+    })
+      const data = await response.json()
+      if(data.status){
+        console.log(data.message)  
+      }else{
+        console.log("There is a problem in changing the password.")
+        }
+      */
   };
+
+
   useEffect(()=>{
     if(index === 5){
         console.log("logged out");

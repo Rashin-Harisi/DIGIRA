@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import SellerPersonalInfo from "./SellerPersonalInfo";
-import ProductCardInHomePage from "./ProductCardInHomePage";
 import ProductCardInSellerPage from "./ProductCardInSellerPage";
 import SubmitProduct from "./SubmitProduct";
 
@@ -148,6 +147,7 @@ const products = [
   },
 ];
 const SellerPage = ({ user, sellerMenu }) => {
+  //const products = useProducts();
   const [index, setIndex] = useState(1);
   const [passwordChanging, setPasswordChanging] = useState({
     currentPassword: "",
@@ -169,6 +169,21 @@ const SellerPage = ({ user, sellerMenu }) => {
   const changePasswordHandler = (e) => {
     e.preventDefault();
     console.log(passwordChanging);
+    /*
+    const response= await fetch('http://localhost:5000/changePassword',{
+      method: "POST",
+      body: JSON.stringify({passwordChanging, userId = user._id}),
+      headers: {
+          "Content-Type" : "application/json"
+      }
+    })
+      const data = await response.json()
+      if(data.status){
+        console.log(data.message)  
+      }else{
+        console.log("There is a problem in changing the password.")
+        }
+      */
   };
   useEffect(() => {
     if (index === 6) {

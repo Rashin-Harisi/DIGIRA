@@ -176,6 +176,8 @@ const products = [
   },
 ];
 const ProductPage = () => {
+  //const user = useUser();
+  //const products = useProducts();
   const { _id } = useParams();
   const product = products?.filter((product) => product._id === _id);
   const [imageIndex, setImageIndex] = useState(0);
@@ -203,20 +205,41 @@ const ProductPage = () => {
     }
   }, [user]);
 
-  const heartHandle = () => {
-    setHeartClicked((prevState) => !prevState);
-    const result = product[0].stars.includes(user._id.$oid);
-    if (!result && !heartClicked) {
-      product[0].stars.push(user._id.$oid);
-      console.log("the id is added", product[0].stars);
-    } else if (result && heartClicked) {
-      const index = product[0].stars.indexOf(user._id.$oid);
-      if (index !== -1) {
-        product[0].stars.splice(index, 1);
+  const heartHandle =async() => {
+    setHeartClicked((prevState) => !prevState)
+    const result = product[0].stars.includes(user._id.$oid)
+    var status;
+    if (!result && !heartClicked){
+      product[0].stars.push(user._id.$oid)
+      //body:userId,status:"liked",productId
+      //status = "liked"
+      console.log("the id is added",product[0].stars);
+    }else if(result && heartClicked){
+      const index = product[0].stars.indexOf(user._id.$oid)
+      //body:userId,status:"unLiked",productId
+      if(index!== -1){
+        product[0].stars.splice(index,1)
       }
-      console.log("The id is removed", product[0].stars);
+      //status = "unLiked"
+      console.log("The id is removed", product[0].stars)
     }
-  };
+    /**
+     const response= await fetch('http://localhost:5000/likeHandle',{
+      method: "POST",
+      body: JSON.stringify({userId: user._id, productId : product._id, status}),
+      headers: {
+          "Content-Type" : "application/json"
+      }
+    })
+      const data = await response.json()
+      if(data.status){
+        console.log(data.message)
+      }else{
+        console.log(error)
+      }
+
+     */
+  }
 
   return (
     <>
