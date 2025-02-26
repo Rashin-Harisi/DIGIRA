@@ -50,7 +50,7 @@ const Signup = () => {
       email:sellerDetails.email_seller.value,
       password: sellerDetails.password_seller.value,
       phone:sellerDetails.phoneNumber_seller.value,
-      address:sellerDetails.address_seller.value,
+      //address:sellerDetails.address_seller.value,
       business_number:sellerDetails.businessNumber_seller.value,
     }
       const response= await fetch('http://localhost:5000/signup',{
@@ -243,6 +243,7 @@ const Signup = () => {
               className="w-[95%] mx-[2.5%] px-[10px]"
             />
           </fieldset>
+          {/**
           <fieldset className="border border-[#ECF39E] w-[90%] m-auto rounded-md my-[10px]">
             <legend className="px-[10px]">Business's Address</legend>
             <input
@@ -252,6 +253,7 @@ const Signup = () => {
               className="w-[95%] mx-[2.5%] px-[10px]"
             />
           </fieldset>
+           */}
           <fieldset className="border border-[#ECF39E] w-[90%] m-auto rounded-md my-[10px]">
             <legend className="px-[10px]">ÖNACE</legend>
             <input

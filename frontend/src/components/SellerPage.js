@@ -154,7 +154,7 @@ const SellerPage = ({ user, sellerMenu }) => {
     newPassword: "",
   });
   const productList = products.filter(
-    (product) => product.sellerId === user._id.$oid
+    (product) => product.sellerId === user._id
   );
 
   const clickHandler = (id) => {
@@ -166,13 +166,11 @@ const SellerPage = ({ user, sellerMenu }) => {
       [field]: value,
     }));
   };
-  const changePasswordHandler = (e) => {
+  const changePasswordHandler = async (e) => {
     e.preventDefault();
-    console.log(passwordChanging);
-    /*
     const response= await fetch('http://localhost:5000/changePassword',{
-      method: "POST",
-      body: JSON.stringify({passwordChanging, userId = user._id}),
+      method: "PATCH",
+      body: JSON.stringify({passwordChanging, userId : user._id}),
       headers: {
           "Content-Type" : "application/json"
       }
@@ -183,7 +181,7 @@ const SellerPage = ({ user, sellerMenu }) => {
       }else{
         console.log("There is a problem in changing the password.")
         }
-      */
+      
   };
   useEffect(() => {
     if (index === 6) {
@@ -233,6 +231,7 @@ const SellerPage = ({ user, sellerMenu }) => {
               <label htmlFor="currentPassword">Current Password : </label>
               <input
                 id="currentPassword"
+                type="password"
                 value={passwordChanging.currentPassword}
                 onChange={(e) =>
                   handleChange("currentPassword", e.target.value)
@@ -243,6 +242,7 @@ const SellerPage = ({ user, sellerMenu }) => {
               <label htmlFor="newPassword">New Password : </label>
               <input
                 id="newPassword"
+                type="password"
                 value={passwordChanging.newPassword}
                 onChange={(e) => handleChange("newPassword", e.target.value)}
               />

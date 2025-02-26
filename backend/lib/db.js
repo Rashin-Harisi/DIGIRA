@@ -3,12 +3,12 @@ var Schema = mongoose1.Schema;
 
 
 const connectDB = async () => {
-    const uriAWS = "mongodb://13.61.2.239:27017/mydatabase";
+    const uriAWS = "mongodb://16.171.23.180:27017/mydatabase";
     const uriLocal = "mongodb://192.168.0.94:27017/mydatabase";
 
 
     try {
-        await mongoose1.connect(uriLocal, {
+        await mongoose1.connect(uriAWS, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

@@ -3,6 +3,7 @@ const MyUser = require("../models/User");
 const Seller = require("../models/Seller");
 var router = express.Router();
 const app = express();
+const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -29,7 +30,7 @@ router.patch("/removeAddress", async function (req, res, next) {
       });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Failed to handle user's like." });
+    return res.status(500).json({ error: "Failed to handle user's address removing process." });
   }
 });
 

@@ -27,23 +27,22 @@ const PersonalInfo = ({user}) => {
         [field]: value,
       }));
     };
-    const newAddressSubmit = (e) => {
+    const newAddressSubmit =async (e) => {
       e.preventDefault();
       if(e.target.city.value === "" || e.target.street.value === "" || e.target.number.value===0 || e.target.postalCode.value===0){
         alert("PLease fill all fields.")
       }
-      setNewAddress({
+      const new_address = {
         city: e.target.city.value,
         street: e.target.street.value,
         number: e.target.number.value,
         postalCode: e.target.postalCode.value,
-      });
+      };
+      setNewAddress(new_address)
       setAddAddressClicked(false);
-      //body: userId , a new address
-      /*
       const response= await fetch('http://localhost:5000/addNewAddress',{
       method: "POST",
-      body: JSON.stringify({userId: user._id, new_address: newAddress}),
+      body: JSON.stringify({userId: user._id, new_address: new_address}),
       headers: {
           "Content-Type" : "application/json"
       }
@@ -54,12 +53,12 @@ const PersonalInfo = ({user}) => {
       }else{
         console.log("There is a problem in adding new address.")
       }
-      */
+      
     };
     const submitHandler = async()=>{
       //body: userId, editedData
       const response= await fetch('http://localhost:5000/editPersonalInfo',{
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify({userId: user._id, editedData}),
         headers: {
             "Content-Type" : "application/json"
@@ -85,7 +84,7 @@ const PersonalInfo = ({user}) => {
     const removeAddress=async (index,address)=>{
        //body: userId, index, address
       const response= await fetch('http://localhost:5000/removeAddress',{
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify({userId: user._id, index, address}),
         headers: {
             "Content-Type" : "application/json"
@@ -299,7 +298,7 @@ const PersonalInfo = ({user}) => {
                   </span>
                 </p>
                 <p>
-                  Joined At : <span>{user.createdAt.$date.split("T")[0]}</span>
+                  Joined At : <span>{user.createdAt.split("T")[0]}</span>
                 </p>
                 <button
                   className="border rounded-xl w-[100px] h-[30px] absolute right-0 -mt-5 flex justify-center items-center gap-2"

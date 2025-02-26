@@ -48,14 +48,17 @@ const UserSchema = new db.Schema(
       type: String,
       default: "USER"
     },
-    addresses: [
-      {
-        city: { type: String, required: true },
-        street: { type: String, required: true },
-        number: { type: Number, required: true },
-        postalCode: { type: Number, required: true },
-      },
-    ],
+    addresses: {
+      type: [
+        {
+          city: { type: String, required: true },
+          street: { type: String, required: true },
+          number: { type: Number, required: true },
+          postalCode: { type: Number, required: true },
+        },
+      ],
+      default: []
+    },
     orders: [],
     payments: [PaymentSchema],
     otp: { type: Number },

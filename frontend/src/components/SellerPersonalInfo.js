@@ -8,12 +8,12 @@ const SellerPersonalInfo = ({ user }) => {
   const [editClicked, setEditClicked] = useState(false);
   const [addAddressClicked, setAddAddressClicked] = useState(false);
   const [editedData, setEditedDate] = useState({
-    address: user.address,
+    addresses: user.addresses,
     name: user.name,
     username: user.username,
     phone: user.phone,
   });
-//Be careful there is "address"instead of "addresses". check and correct later. 
+
   const [newAddress, setNewAddress] = useState({
     city: "",
     street: "",
@@ -27,45 +27,46 @@ const SellerPersonalInfo = ({ user }) => {
       [field]: value,
     }));
   };
-  const newAddressSubmit = (e) => {
+  const newAddressSubmit = async(e) => {
     e.preventDefault();
     if(e.target.city.value === "" || e.target.street.value === "" || e.target.number.value===0 || e.target.postalCode.value===0){
       alert("PLease fill all fields.")
     }
-    setNewAddress({
+    const new_address = {
       city: e.target.city.value,
       street: e.target.street.value,
       number: e.target.number.value,
       postalCode: e.target.postalCode.value,
-    });
-    setAddAddressClicked(false);
-    //body: userId , a new address
-    /*
+    };
+    setNewAddress(new_address)
+    setAddAddressClicked(false); 
     const response= await fetch('http://localhost:5000/addNewAddress',{
     method: "POST",
-    body: JSON.stringify({userId: user._id, new_address: newAddress}),
+    body: JSON.stringify({userId: user._id, new_address: new_address}),
     headers: {
         "Content-Type" : "application/json"
     }
   })
     const data = await response.json();
+    console.log(data)
     if(data.status){
       console.log(data.message)
     }else{
       console.log("There is a problem in adding new address.")
     }
-    */
+    
   };
   const submitHandler = async()=>{
     //body: userId, editedData
     const response= await fetch('http://localhost:5000/editPersonalInfo',{
-      method: "POST",
+      method: "PATCH",
       body: JSON.stringify({userId: user._id, editedData}),
       headers: {
           "Content-Type" : "application/json"
       }
     })
       const data = await response.json();
+      
       if(data.status){
         console.log(data.message)
       }else{
@@ -83,7 +84,7 @@ const SellerPersonalInfo = ({ user }) => {
   const removeAddress=async (index,address)=>{
     //body: userId, index, address
    const response= await fetch('http://localhost:5000/removeAddress',{
-     method: "POST",
+     method: "PATCH",
      body: JSON.stringify({userId: user._id, index, address}),
      headers: {
          "Content-Type" : "application/json"
@@ -141,7 +142,7 @@ const SellerPersonalInfo = ({ user }) => {
         <div className="flex flex-col gap-2 pl-[60px]">
           {editClicked ? (
             <div>
-              {editedData.address.map((address, index) => (
+              {editedData.addresses.map((address, index) => (
                 <form
                   key={index}
                   className="flex w-full gap-3 items-center my-2"
@@ -195,7 +196,7 @@ const SellerPersonalInfo = ({ user }) => {
             </div>
           ) : (
             <div className="flex flex-col">
-              {user.address.map((address, index) => (
+              {user && user.addresses.map((address, index) => (
                 <div key={index} className="flex gap-5">
                   <span>
                     {address.number} - {address.street} - {address.city} /{" "}
@@ -276,7 +277,7 @@ const SellerPersonalInfo = ({ user }) => {
         </span>
       </p>
       <p>
-        Joined At : <span>{user.createdAt.$date.split("T")[0]}</span>
+        Joined At : <span>{ user.createdAt.split("T")[0]}</span>
       </p>
       <button
         className="border rounded-xl w-[100px] h-[30px] absolute right-0 -mt-5 flex justify-center items-center gap-2"

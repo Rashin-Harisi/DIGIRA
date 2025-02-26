@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 router.post('/signup',async function(req,res,next){
-    const { name, username, email, password, phone, role,business_number,address } = req.body;
+    //later add address
+    const { name, username, email, password, phone, role,business_number } = req.body;
 
     const hashedPass = await hash(password,12);
 
@@ -64,7 +65,7 @@ router.post('/signup',async function(req,res,next){
         seller.email = email;
         seller.phone = phone;
         seller.business_number = business_number;
-        seller.address = address;
+        //seller.address = address;
         seller.password = hashedPass;
         seller.otp = otp;
         seller.otpExpiresAt = expireTime_otp;

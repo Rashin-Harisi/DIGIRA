@@ -4,6 +4,7 @@ const Seller = require("../models/Seller");
 const { compare, hash } = require("bcrypt");
 var router = express.Router();
 const app = express();
+const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(express.json());

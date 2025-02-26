@@ -33,15 +33,16 @@ const SubmitProduct = ({user}) => {
       }
     });
     const colors = form_info.color.value.split(",");
+    //sellerId,name,company,price,discount,quantity,colors,details
     form_data.append("name", form_info.name.value);
-    form_data.append("name", form_info.name.value);
+    //form_data.append("name", form_info.name.value);
     form_data.append("company", form_info.company.value);
     form_data.append("colors", colors);
     form_data.append("details", form_info.details.value || "");
     form_data.append("price", form_info.price.value);
     form_data.append("discount", form_info.discount.value || "");
     form_data.append("quantity", form_info.quantity.value);
-    form_data.append("sellerId", user._id.$iod || "");
+    form_data.append("sellerId", user._id|| "");
 
     const response = await fetch("http://localhost:5000/submitProduct", {
       method: "POST",
@@ -50,6 +51,8 @@ const SubmitProduct = ({user}) => {
     const data = await response.json();
     if(data.status){
       alert('Your product is submitted. Please wait until admins approve it.')
+    }else{
+      console.log(data)
     }
   };
 
@@ -59,7 +62,7 @@ const SubmitProduct = ({user}) => {
         <legend className="px-2">SUBMIT A PRODUCT TO SELL</legend>
         <div className="border-b border-[#ECF39E] h-16 py-[12px]">
           <p className="text-center">
-            Seller info - Name: {user?.name} , and ID: {user?._id.$iod}
+            Seller info - Name: {user?.name} , and ID: {user?._id}
           </p>
         </div>
         <form className="flex flex-col" onSubmit={productSubmit}>

@@ -2,14 +2,17 @@ var express = require("express");
 const Product = require("../models/Product");
 var router = express.Router();
 const app = express();
+const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(express.json());
 
 router.post("/likeHandle", async function (req, res, next) {
   const { userId, status, productId } = req.body;
+  
   const product = await Product.findOne({ _id: productId });
   const result = product.stars.includes(userId);
+ 
   try {
     if (!result && status === "liked") {
         product.stars.push(userId);

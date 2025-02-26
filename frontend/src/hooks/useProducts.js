@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import fetchProducts from "../utils/fetchProducts";
 
 const useProducts = () => {
   const [products, setProducts] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      const response = await fetch("http://localhost:5000/getProducts");
-      const data = await response.json();
-      if (data.success) {
-        setProducts(data.data);
-      } else {
-        console.log("Something went wrong in getting all products");
-      }
+    const getProducts = async () => {
+     const products = await fetchProducts();
+     if(products){
+      setProducts(products)
+     }
     };
 
-    getUserInfo();
+    getProducts();
   }, [navigate]);
   return products;
 };

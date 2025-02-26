@@ -2,12 +2,13 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import {Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 
-const ProductCardInAdminPage = ({ product }) => {
+const ProductCardInAdminPage = ({ product,seller }) => {
   const [status, setStatus] = useState("");
   let [isOpen, setIsOpen] = useState(true)
   const [note, setNote] = useState("")
-
+  
  
+
   const submitHandler=async()=> {
     setIsOpen(false)
     const response = await fetch("http://localhost:5000/approveProduct",{
@@ -50,13 +51,13 @@ const ProductCardInAdminPage = ({ product }) => {
           <legend className="pl-4 pt-2 italic">SellerInfo</legend>
           <div className="flex flex-col lg:flex-row justify-around pb-4 leading-loose italic">
             <p>
-              Name : <span></span>
+              Name : <span>{seller && seller[0].name}</span>
             </p>
             <p>
-              ÖNACE : <span></span>
+              ÖNACE : <span>{seller && seller[0].business_number}</span>
             </p>
             <p>
-              Phone Number : <span></span>
+              Phone Number : <span>{seller && seller[0].phone}</span>
             </p>
           </div>
         </fieldset>

@@ -50,9 +50,9 @@ app.use('/regform', reg_form);
 app.use('/verification',verification)
 app.use('/getProducts',getProducts)
 app.use('/getSellers', getSellers)
-app.use('/editPersonalInfo', edit_personal_info)
-app.use("/removeAddress", remove_address)
-app.use('/changePassword',change_password)
+app.use('/', edit_personal_info)
+app.use("/", remove_address)
+app.use('/',change_password)
 
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)

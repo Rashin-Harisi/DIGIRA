@@ -4,81 +4,68 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { calculatePrice } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
-
-const user= {
-  "_id": {
-    "$oid": "678d07aeb4d06a4bd426bbc2"
-  },
-  "role": "USER",
-  "orders": [],
-  "isVerified": true,
-  "createdAt": {
-    "$date": "2025-01-19T14:09:50.225Z"
-  },
-  "addresses": [],
-  "payments": [],
-  "name": "Rashin Harisi",
-  "username": "rashin.harisi",
-  "email": "rashin.aharisi1991@gmail.com",
-  "phone": 123456789,
-  "password": "$2b$12$XIubebndnZTfK4VBrAUcGu0Y2f6F6Q4MWDNkIOfF6Trlu9wtZwELC"
-}
+import useUserStore from "../store/userStore";
 
 const ProductCardInHomePage = (product) => {
-  //const user = useUser();
-  //check whether product or product.product??
+  const userStore = useUserStore((state) => state.user);
+
   const productN = product.product;
   const [heartClicked, setHeartClicked] = useState(false);
   const navigate = useNavigate();
-   
-  useEffect(()=>{
-    const result = productN.stars.includes(user._id.$oid)
-    if(result){
-      setHeartClicked(true)
-    }
-  },[user])
 
-  const heartHandle =async() => {
-    setHeartClicked((prevState) => !prevState)
-    const result = productN.stars.includes(user._id.$oid)
-    var status;
-    if (!result && !heartClicked){
-      productN.stars.push(user._id.$oid)
-      //body:userId,status:"liked",productId
-      //status = "liked"
-      console.log("the id is added",productN.stars);
-    }else if(result && heartClicked){
-      const index = productN.stars.indexOf(user._id.$oid)
-      //body:userId,status:"unLiked",productId
-      if(index!== -1){
-        productN.stars.splice(index,1)
+  
+  useEffect(() => {
+    if (userStore) {
+      const result = productN.stars.includes(userStore._id);
+      if (result) {
+        setHeartClicked(true);
       }
-      //status = "unLiked"
-      console.log("The id is removed", productN.stars)
     }
-    /**
-     const response= await fetch('http://localhost:5000/likeHandle',{
-      method: "POST",
-      body: JSON.stringify({userId: user._id, productId : product._id, status}),
-      headers: {
-          "Content-Type" : "application/json"
-      }
-    })
-      const data = await response.json()
-      if(data.status){
-        console.log(data.message)
-      }else{
-        console.log(error)
-      }
+  }, [userStore]);
 
-     */
-  }
+  const productName = productN.name[0].split(" ").slice(0, 5).join(" ");
+
+  const heartHandle = async () => {
+    setHeartClicked((prevState) => !prevState);
+      const result = productN.stars.includes(userStore?._id);
+      var status;
+      if (!result && !heartClicked) {
+        productN.stars.push(userStore?._id);
+        status = "liked"
+        console.log("the id is added", productN.stars);
+      } else if (result && heartClicked) {
+        const index = productN.stars.indexOf(userStore?._id);
+        if (index !== -1) {
+          productN.stars.splice(index, 1);
+        }
+        status = "unLiked"
+        console.log("The id is removed", productN.stars);
+      }
+      if(userStore){
+      const response = await fetch("http://localhost:5000/likeHandle", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: userStore._id,
+          productId: productN._id,
+          status,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status) {
+        console.log(data.message);
+      } else {
+        console.log("there is error in handling like in database.");
+      }
+    }else{
+      console.log("there is no user.")
+    }    
+  };
   return (
-    <div className="border w-[30%] min-h-[300px] relative rounded-xl" >
-      <button
-        onClick={heartHandle}
-        className="absolute top-3 left-3"
-      >
+    <div className="border w-[30%] min-h-[400px] relative rounded-xl bg-white text-black">
+      <button onClick={heartHandle} className="absolute top-3 left-3">
         {heartClicked ? (
           <FaHeart
             className={clsx("text-2xl", { "text-red-500": heartClicked })}
@@ -93,19 +80,50 @@ const ProductCardInHomePage = (product) => {
         </span>
       )}
       <div className="absolute top-3 left-10 flex gap-4">
-        <img src={productN.images[0]} alt="productImage" className="rounded-xl" onClick={()=>navigate(`/${productN._id}`)}/>
+        <img
+          src={productN.images[0]}
+          alt="productImage"
+          className="rounded-xl"
+          width={200}
+          height={200}
+          onClick={() => navigate(`/${productN._id}`)}
+        />
         <div className="flex flex-col justify-between">
-            {productN.images.map((image, index) => index!==0 && (
-                <img  key={index} src={image} alt="productImages" width={50} height={50} className="rounded-xl"/>
-            )   
-            )}
+          {productN.images.map(
+            (image, index) =>
+              index !== 0 && (
+                <img
+                  key={index}
+                  src={image}
+                  alt="productImages"
+                  width={50}
+                  height={50}
+                  className="rounded-xl"
+                />
+              )
+          )}
         </div>
       </div>
-      <div className="absolute bottom-5 flex justify-between w-full px-8 " onClick={()=>navigate(`/${productN._id}`)}>
-        <p className="text-xl">{productN.name[0]}</p>
+      <div
+        className="absolute bottom-5 flex flex-col justify-between w-full px-8 "
+        onClick={() => navigate(`/${productN._id}`)}
+      >
+        <p className="text-xl">{productName} ...</p>
         <div className="flex">
-            <p className={clsx(" text-xl",{"line-through opacity-80" : productN.discount !== "0"})}>{productN.price}<span> €</span></p>
-            {productN.discount !== "0" && <p className="ml-2 text-xl">{calculatePrice(productN.price, productN.discount)}<span> €</span></p>}
+          <p
+            className={clsx(" text-xl", {
+              "line-through opacity-80": productN.discount !== "0",
+            })}
+          >
+            {productN.price}
+            <span> €</span>
+          </p>
+          {productN.discount !== "0" && (
+            <p className="ml-2 text-xl">
+              {calculatePrice(productN.price, productN.discount)}
+              <span> €</span>
+            </p>
+          )}
         </div>
       </div>
     </div>

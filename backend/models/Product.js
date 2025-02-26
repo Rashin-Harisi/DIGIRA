@@ -6,10 +6,13 @@ const ProductSchema = new db.Schema({
 		ref: "SellerSchema",
         required: true,
 	},
-	stars:[{
-		type: db.Schema.Types.ObjectId,
-		ref: "UserSchema"
-	}],
+	stars:{
+		type : [{
+			type: db.Schema.Types.ObjectId,
+			ref: "UserSchema"
+		}],
+		default: []
+	},
 	name: {
 		type: [String],
 		required : true

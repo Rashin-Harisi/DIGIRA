@@ -7,7 +7,8 @@ const upload = multer({ dest: "../uploads/" });
 
 
 router.post(  "/submitProduct", upload.array('images[]') , async function (req, res, next) {
-      const images = req.files;
+  try {
+    const images = req.files;
       const {sellerId,name,company,price,discount,quantity,colors,details} = req.body;
       
 
@@ -43,8 +44,11 @@ router.post(  "/submitProduct", upload.array('images[]') , async function (req, 
         message: "Product is submitted.Please wait until admins approve it.",
         data: newProduct
       });
-      
+    } catch (error) {
+      console.log(error)
+    }
       }
+      
     
 );
 
