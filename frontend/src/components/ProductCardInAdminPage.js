@@ -11,7 +11,7 @@ const ProductCardInAdminPage = ({ product,seller }) => {
 
   const submitHandler=async()=> {
     setIsOpen(false)
-    const response = await fetch("http://localhost:5000/approveProduct",{
+    const response = await fetch("http://localhost:5001/approveProduct",{
     method: "POST",
     body: JSON.stringify({productId : product._id, status: "declined", note : note}),
       headers: {
@@ -27,7 +27,7 @@ const ProductCardInAdminPage = ({ product,seller }) => {
  
   const approveHandel= async()=>{
     setStatus("approve")
-    const response = await fetch("http://localhost:5000/approveProduct",{
+    const response = await fetch("http://localhost:5001/approveProduct",{
     method: "POST",
     body: JSON.stringify({productId : product._id, status: "approved"}),
       headers: {

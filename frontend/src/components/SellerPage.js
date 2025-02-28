@@ -168,7 +168,7 @@ const SellerPage = ({ user, sellerMenu }) => {
   };
   const changePasswordHandler = async (e) => {
     e.preventDefault();
-    const response= await fetch('http://localhost:5000/changePassword',{
+    const response= await fetch('http://localhost:5001/changePassword',{
       method: "PATCH",
       body: JSON.stringify({passwordChanging, userId : user._id}),
       headers: {

@@ -42,7 +42,7 @@ const ProductCardInHomePage = (product) => {
         console.log("The id is removed", productN.stars);
       }
       if(userStore){
-      const response = await fetch("http://localhost:5000/likeHandle", {
+      const response = await fetch("http://localhost:5001/likeHandle", {
         method: "POST",
         body: JSON.stringify({
           userId: userStore._id,

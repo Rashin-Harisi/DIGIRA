@@ -28,7 +28,7 @@ const UserPage = ({ user, userMenu }) => {
   const changePasswordHandler = async(e) => {
     e.preventDefault();
     console.log(passwordChanging);
-    const response= await fetch('http://localhost:5000/changePassword',{
+    const response= await fetch('http://localhost:5001/changePassword',{
       method: "PATCH",
       body: JSON.stringify({passwordChanging, userId : user._id}),
       headers: {

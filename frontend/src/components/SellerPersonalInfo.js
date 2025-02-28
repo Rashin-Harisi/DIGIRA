@@ -40,7 +40,7 @@ const SellerPersonalInfo = ({ user }) => {
     };
     setNewAddress(new_address)
     setAddAddressClicked(false); 
-    const response= await fetch('http://localhost:5000/addNewAddress',{
+    const response= await fetch('http://localhost:5001/addNewAddress',{
     method: "POST",
     body: JSON.stringify({userId: user._id, new_address: new_address}),
     headers: {
@@ -58,7 +58,7 @@ const SellerPersonalInfo = ({ user }) => {
   };
   const submitHandler = async()=>{
     //body: userId, editedData
-    const response= await fetch('http://localhost:5000/editPersonalInfo',{
+    const response= await fetch('http://localhost:5001/editPersonalInfo',{
       method: "PATCH",
       body: JSON.stringify({userId: user._id, editedData}),
       headers: {
@@ -83,7 +83,7 @@ const SellerPersonalInfo = ({ user }) => {
   };
   const removeAddress=async (index,address)=>{
     //body: userId, index, address
-   const response= await fetch('http://localhost:5000/removeAddress',{
+   const response= await fetch('http://localhost:5001/removeAddress',{
      method: "PATCH",
      body: JSON.stringify({userId: user._id, index, address}),
      headers: {

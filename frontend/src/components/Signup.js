@@ -25,7 +25,7 @@ const Signup = () => {
       password:userDetails.password.value,
       phone: userDetails.phoneNumber.value,
     }
-    const response= await fetch('http://localhost:5000/signup',{
+    const response= await fetch('http://localhost:5001/signup',{
       method: "POST",
       body: JSON.stringify(newUser),
       headers: {
@@ -53,7 +53,7 @@ const Signup = () => {
       //address:sellerDetails.address_seller.value,
       business_number:sellerDetails.businessNumber_seller.value,
     }
-      const response= await fetch('http://localhost:5000/signup',{
+      const response= await fetch('http://localhost:5001/signup',{
         method: "POST",
         body: JSON.stringify(newSeller),
         headers: {
@@ -79,7 +79,7 @@ const Signup = () => {
       password:adminDetails.password_admin.value,
       phone: adminDetails.phoneNumber_admin.value,
     }
-    const response= await fetch('http://localhost:5000/signup',{
+    const response= await fetch('http://localhost:5001/signup',{
       method: "POST",
       body: JSON.stringify(newAdmin),
       headers: {
@@ -103,7 +103,7 @@ const Signup = () => {
       email: verificationDetail.email_verify.value,
       otp: verificationDetail.code_verify.value,
     }
-    const response= await fetch('http://localhost:5000/verifyotp',{
+    const response= await fetch('http://localhost:5001/verifyotp',{
       method: "POST",
       body: JSON.stringify(verifiedCode),
       headers: {

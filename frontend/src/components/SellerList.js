@@ -8,7 +8,7 @@ const SellerList = () => {
 
   useEffect(() => {
     const getSellers = async () => {
-      const response = await fetch("http://localhost:5000/getSellers");
+      const response = await fetch("http://localhost:5001/getSellers");
       const data = await response.json();
      
       if (data.success) {

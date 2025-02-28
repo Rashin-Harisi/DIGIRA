@@ -13,7 +13,7 @@ const WaitingList = () => {
 
   useEffect(()=>{
     const sellerInfo = async()=>{
-      const response = await fetch("http://localhost:5000/getSellers");
+      const response = await fetch("http://localhost:5001/getSellers");
       const data = await response.json();
       if(data.success){
         setSellers(data.data)

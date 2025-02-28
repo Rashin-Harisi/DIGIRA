@@ -6,7 +6,7 @@ const fetchUserProfile = async () => {
   if (!token) {
     return console.log("Login is required");
   } else {
-    const response = await fetch("http://localhost:5000/userProfile", {
+    const response = await fetch("http://localhost:5001/userProfile", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`, // Include token
@@ -24,7 +24,7 @@ const fetchUserProfile = async () => {
 
   if(email){
     try {
-      const res = await fetch("http://localhost:5000/getUser", {
+      const res = await fetch("http://localhost:5001/getUser", {
         method: "POST",
         body: JSON.stringify({email}),
         headers: {

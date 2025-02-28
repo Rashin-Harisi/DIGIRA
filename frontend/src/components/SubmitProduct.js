@@ -44,7 +44,7 @@ const SubmitProduct = ({user}) => {
     form_data.append("quantity", form_info.quantity.value);
     form_data.append("sellerId", user._id|| "");
 
-    const response = await fetch("http://localhost:5000/submitProduct", {
+    const response = await fetch("http://localhost:5001/submitProduct", {
       method: "POST",
       body: form_data,
     });
