@@ -5,7 +5,7 @@ import ProductCardInHomePage from "./ProductCardInHomePage";
 import useProducts from "../hooks/useProducts";
 
 const UserPage = ({ user, userMenu }) => {
-  const products = useProducts();
+  const {products} = useProducts();
   const [index, setIndex] = useState(1);
   const [passwordChanging, setPasswordChanging] = useState({
     currentPassword: "",
@@ -53,7 +53,7 @@ const UserPage = ({ user, userMenu }) => {
 
   return (
     <div className="flex gap-5 ">
-      <div className="border rounded-xl flex flex-col">
+      <div className="flex flex-col border rounded-xl">
         <div className="h-[100px] px-5 border-b flex flex-col justify-center items-center gap-2">
           <div className="border w-11 h-11 text-center rounded-full text-3xl bg-[#ECF39E] text-[#31572C]">
             {user.name.charAt(0)}
@@ -78,7 +78,7 @@ const UserPage = ({ user, userMenu }) => {
         {index === 1 && <PersonalInfo user={user} />}
         {index === 2 && <div> previous purchase</div>}
         {index === 3 && (
-          <div className="flex gap-5 flex-wrap justify-around">
+          <div className="flex flex-wrap justify-around gap-5">
             {productsList.length !== 0 &&
               productsList.map((product, index) => (
                 <ProductCardInHomePage key={index} product={product} />

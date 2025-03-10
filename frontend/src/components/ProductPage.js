@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
@@ -7,246 +7,101 @@ import { CiShoppingCart } from "react-icons/ci";
 import { calculatePrice, getRandomProducts } from "../utils/functions";
 import { AiOutlineDelete } from "react-icons/ai";
 import ProductCardInHomePage from "./ProductCardInHomePage";
+import useProduct from '../hooks/useProduct'
+import useProducts from "../hooks/useProducts"
+import useUser from "../hooks/useUser"
 
-const user = {
-  _id: {
-    $oid: "678d07aeb4d06a4bd426bbc2",
-  },
-  role: "USER",
-  orders: [],
-  isVerified: true,
-  createdAt: {
-    $date: "2025-01-19T14:09:50.225Z",
-  },
-  addresses: [],
-  payments: [],
-  name: "Rashin Harisi",
-  username: "rashin.harisi",
-  email: "rashin.aharisi1991@gmail.com",
-  phone: 123456789,
-  password: "$2b$12$XIubebndnZTfK4VBrAUcGu0Y2f6F6Q4MWDNkIOfF6Trlu9wtZwELC",
-};
-const products = [
-  {
-    _id: "67979e8cb38783c7a6092394",
-    stars: ["678d07aeb4d06a4bd426bbc2"],
-    name: ["Kid bag", "Kid bag"],
-    company: ["Rara comapny"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is waterproof"],
-    createdAt: "2025-01-27T14:56:12.339Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "20",
-    discount: "0",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "67979e8cb38783c7a6092395",
-    stars: [],
-    name: ["Kid bag", "Kid bag"],
-    company: ["Rara comapny"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is waterproof"],
-    createdAt: "2025-01-27T14:56:12.339Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "20",
-    discount: "10",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "67979e8cb38783c7a6092396",
-    stars: [],
-    name: ["Kid bag", "Kid bag"],
-    company: ["Rara comapny"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737989771843_images.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is waterproof"],
-    createdAt: "2025-01-27T14:56:12.339Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "20",
-    discount: "10",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "6797a194b38783c7a6092408",
-    stars: [],
-    name: ["Mobile ", "Mobile "],
-    company: ["Mumbai"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is cheep one that you can find."],
-    createdAt: "2025-01-27T15:09:08.199Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "400",
-    discount: "5",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "6797a194b38783c7a6092407",
-    stars: ["678d07aeb4d06a4bd426bbc2"],
-    name: ["Mobile ", "Mobile "],
-    company: ["Mumbai"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is cheep one that you can find."],
-    createdAt: "2025-01-27T15:09:08.199Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "400",
-    discount: "0",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "6797a194b38783c7a6092406",
-    stars: [],
-    name: ["Mobile ", "Mobile "],
-    company: ["Mumbai"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is cheep one that you can find."],
-    createdAt: "2025-01-27T15:09:08.199Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "400",
-    discount: "5",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-  {
-    _id: "6797a194b38783c7a6092405",
-    stars: ["678d07aeb4d06a4bd426bbc2"],
-    name: ["Mobile ", "Mobile "],
-    company: ["Mumbai"],
-    images: [
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-      "https://fullstack-online-shop.s3.eu-north-1.amazonaws.com/1737990547840_images%20%281%29.jpeg",
-    ],
-    colors: ["red,blue,black"],
-    details: ["It is cheep one that you can find."],
-    createdAt: "2025-01-27T15:09:08.199Z",
-    sellerId: "6790c3b59bb2829f2cf386f4",
-    price: "400",
-    discount: "5",
-    status: "waiting",
-    storage_quantity: 5,
-    __v: 0,
-  },
-];
+
+
 const ProductPage = () => {
-  //const user = useUser();
-  //const products = useProducts();
   const { _id } = useParams();
-  const product = products?.filter((product) => product._id === _id);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [heartClicked, setHeartClicked] = useState(false);
-  const [addToCart, setAddToCart] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const storage_quantity = product[0].storage_quantity;
-  const colors = product[0].colors[0].split(",");
-  const [color, setColor] = useState(colors[0]);
-  const [productsList, setProductsList] = useState(null);
+  const user = useUser()
+  const { product, isLoading} = useProduct(_id);
+  const {products,isLoading:loading} = useProducts()  
+ const [imageIndex, setImageIndex] = useState(0);
+ const [heartClicked, setHeartClicked] = useState(false);
+ const [addToCart, setAddToCart] = useState(false);
+ const [quantity, setQuantity] = useState(1);
+ const storage_quantity = product?.storage_quantity;
+ const colors = product?.colors[0].split(",");
+ const [color, setColor] = useState("");
+ const [productsList, setProductsList] = useState(null);
 
+
+ useEffect(() => {
   const otherProductsOfSeller = products.filter(
-    (item) => item.sellerId === product[0].sellerId
+    (item) => item.sellerId === product?.sellerId
   );
-  useEffect(() => {
-    if (otherProductsOfSeller?.length > 3) {
-      setProductsList(getRandomProducts(otherProductsOfSeller, 3));
-    }
-  }, []);
-
-  useEffect(() => {
-    const result = product[0].stars.includes(user._id.$oid);
-    if (result) {
-      setHeartClicked(true);
-    }
-  }, [user]);
-
-  const heartHandle =async() => {
-    setHeartClicked((prevState) => !prevState)
-    const result = product[0].stars.includes(user._id.$oid)
-    var status;
-    if (!result && !heartClicked){
-      product[0].stars.push(user._id.$oid)
-      //body:userId,status:"liked",productId
-      //status = "liked"
-      console.log("the id is added",product[0].stars);
-    }else if(result && heartClicked){
-      const index = product[0].stars.indexOf(user._id.$oid)
-      //body:userId,status:"unLiked",productId
-      if(index!== -1){
-        product[0].stars.splice(index,1)
-      }
-      //status = "unLiked"
-      console.log("The id is removed", product[0].stars)
-    }
-    /**
-     const response= await fetch('http://localhost:5001/likeHandle',{
-      method: "POST",
-      body: JSON.stringify({userId: user._id, productId : product._id, status}),
-      headers: {
-          "Content-Type" : "application/json"
-      }
-    })
-      const data = await response.json()
-      if(data.status){
-        console.log(data.message)
-      }else{
-        console.log(error)
-      }
-
-     */
+  if (otherProductsOfSeller?.length > 3) {
+    setProductsList(getRandomProducts(otherProductsOfSeller, 3));
+  }else{
+    setProductsList(otherProductsOfSeller)
   }
+ }, [products])
+ 
+  useEffect(()=>{
+    if(colors && colors.length>0){
+      setColor(colors[0])
+    }else{
+      setColor("")
+    }
+  },[colors])
+  
+ useEffect(() => {
+   const result = product?.stars.includes(user._id);
+   if (result) {
+     setHeartClicked(true);
+   }
+ }, [user]);
 
+ 
+
+ 
+ const heartHandle = async () => {
+  setHeartClicked((prevState) => !prevState);
+    const result = product?.stars.includes(user?._id);
+    var status;
+    if (!result && !heartClicked) {
+      product.stars.push(user?._id);
+      status = "liked"
+      console.log("the id is added", product.stars);
+    } else if (result && heartClicked) {
+      const index = product.stars.indexOf(user?._id);
+      if (index !== -1) {
+        product.stars.splice(index, 1);
+      }
+      status = "unLiked"
+      console.log("The id is removed", product.stars);
+    }
+    if(user){
+    const response = await fetch("http://localhost:5001/likeHandle", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: user._id,
+        productId: product._id,
+        status,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (data.status) {
+      console.log(data.message);
+    } else {
+      console.log("there is error in handling like in database.");
+    }
+  }else{
+    console.log("there is no user.")
+  }    
+};
   return (
     <>
+    {isLoading ? <div>Data is loading...</div> : (
       <div className="flex gap-5">
-        <div className="flex min-h-[300px] ml-4 gap-5 border border-[#31572C] rounded-xl px-3">
+      <div className="flex min-h-[300px] ml-4 gap-5 border border-[#31572C] rounded-xl px-3">
           <div className="flex flex-col justify-around">
-            {product[0].images.map((image, index) => (
+            {product?.images.map((image, index) => (
               <img
                 key={index}
                 src={image}
@@ -260,19 +115,19 @@ const ProductPage = () => {
           </div>
           <div>
             <img
-              src={product[0].images[imageIndex]}
+              src={product?.images[imageIndex]}
               alt="big_image"
               height={280}
               width={280}
-              className="rounded-xl mt-3"
+              className="mt-3 rounded-xl"
             />
           </div>
         </div>
         <div className="flex flex-grow">
           <div className="w-[70%] flex flex-col gap-5 text-lg">
-            <p className="font-bold">{product[0].name[0]}</p>
-            <p>{product[0].company}</p>
-            <p>Available in Stock : {product[0].storage_quantity}</p>
+            <p className="font-bold">{product?.name[0]}</p>
+            <p>{product?.company}</p>
+            <p>Available in Stock : {product?.storage_quantity}</p>
             <div className="flex gap-5">
               <p>Choose the color: </p>
               <select
@@ -280,17 +135,17 @@ const ProductPage = () => {
                 className="text-[#31572C]"
                 onChange={(event) => setColor(event.target.value)}
               >
-                {colors.map((color, index) => (
+                {colors?.map((color, index) => (
                   <option key={index} value={color}>
                     {color}
                   </option>
                 ))}
               </select>
             </div>
-            <p>Details : {product[0].details}</p>
+            <p>Details : {product?.details}</p>
           </div>
-          <div className="flex-grow relative ">
-            <button onClick={heartHandle} className="absolute right-2 top-0">
+          <div className="relative flex-grow ">
+            <button onClick={heartHandle} className="absolute top-0 right-2">
               {heartClicked ? (
                 <FaHeart
                   className={clsx("text-2xl", { "text-red-500": heartClicked })}
@@ -303,15 +158,15 @@ const ProductPage = () => {
               <p className="text-lg">Price : </p>
               <p
                 className={clsx(" text-lg", {
-                  "line-through opacity-80": product[0].discount !== "0",
+                  "line-through opacity-80": product?.discount !== "0",
                 })}
               >
-                {product[0].price}
+                {product?.price}
                 <span> €</span>
               </p>
-              {product[0].discount !== "0" && (
+              {product?.discount !== "0" && (
                 <p className="ml-2 text-lg">
-                  {calculatePrice(product[0].price, product[0].discount)}
+                  {calculatePrice(product?.price, product?.discount)}
                   <span> €</span>
                 </p>
               )}
@@ -364,8 +219,10 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
-      </div>
-      {otherProductsOfSeller?.length !== 0 && (
+    </div>
+    )}
+      
+      {productsList?.length !== 0 && (
         <div>
           <div className="flex items-center my-4">
             <div className="flex-grow border-t border-gray-300"></div>
@@ -375,13 +232,10 @@ const ProductPage = () => {
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
           <div className="flex justify-around">
-            {productsList
-              ? productsList.map((product, index) => (
+            {productsList?.map((product, index) => (
                   <ProductCardInHomePage key={index} product={product} />
                 ))
-              : otherProductsOfSeller.map((product, index) => (
-                  <ProductCardInHomePage key={index} product={product} />
-                ))}
+              } 
           </div>
         </div>
       )}

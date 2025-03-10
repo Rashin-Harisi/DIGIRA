@@ -18,6 +18,7 @@ var approveProduct = require('./routes/approve_product')
 const userProfile= require('./routes/userProfile')
 const getUser  = require('./routes/getUser')
 const getProducts = require('./routes/getProducts')
+const getProduct = require('./routes/getProduct')
 const getSellers = require('./routes/getSellers')
 const like_handle= require("./routes/like_handle_product")
 const add_new_address = require("./routes/add_new_address")
@@ -63,6 +64,7 @@ app.post('/userProfile',userProfile)
 app.post('/getUser', getUser);
 app.post('/likeHandle', like_handle)
 app.post('/addNewAddress', add_new_address)
+app.post('/getProduct', getProduct)
 
 
 

@@ -4,13 +4,14 @@ import useProducts from "../hooks/useProducts"
 
 
 const ProductsPage = ({user}) => {
-  //console.log(user)
-  const products = useProducts();
+  
+  const {products} = useProducts();
+  //console.log(products)
   return (
     <div>
         {products?.length !== 0 && user ? (
-          <div className="flex gap-5 flex-wrap justify-around">
-            {products && products.map((product,index) => (
+          <div className="flex flex-wrap justify-around gap-5">
+            {products && products?.map((product,index) => (
               <ProductCardInHomePage  key={index} product={product} user={user} />
             ))}
           </div>

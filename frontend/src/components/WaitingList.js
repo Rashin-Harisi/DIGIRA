@@ -3,7 +3,7 @@ import ProductCardInAdminPage from './ProductCardInAdminPage';
 import useProducts from '../hooks/useProducts';
 
 const WaitingList = () => {
-  const products= useProducts();
+  const {products}= useProducts();
   const waiting_list_products = products?.filter((product)=>product.status === "waiting")
   const [sellers,setSellers] = useState(null)
   

@@ -3,7 +3,7 @@ import SellerCard from "./SellerCard";
 import useProducts from "../hooks/useProducts";
 
 const SellerList = () => {
-  const products = useProducts();
+  const {products} = useProducts();
   const [sellers, setSellers] = useState(null);
 
   useEffect(() => {

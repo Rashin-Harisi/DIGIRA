@@ -12,6 +12,7 @@ import Banner from "./components/Banner";
 import HomePage from "./components/HomePage";
 import ProductPage from "./components/ProductPage";
 import Profile from "./components/Profile";
+import Cart from "./components/Cart";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,6 +27,7 @@ root.render(
           <Route path='/admin' element={<AdminPage />}/>
           <Route path="/test" element={<Banner />}/>
           <Route path="/profile" element={<Profile />}/>
+          <Route path="/cart" element={<Cart />}/>
           
         </Routes>
       </Layout>

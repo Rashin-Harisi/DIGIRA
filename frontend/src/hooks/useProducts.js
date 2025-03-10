@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import fetchProducts from "../utils/fetchProducts";
 
 const useProducts = () => {
-  const [products, setProducts] = useState(null);
-  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getProducts = async () => {
-     const products = await fetchProducts();
-     if(products){
-      setProducts(products)
-     }
+      try {
+        setIsLoading(true);
+        const products = await fetchProducts();
+        setProducts(products);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     getProducts();
-  }, [navigate]);
-  return products;
+  }, []);
+
+  return { products, isLoading, error };
 };
 
 export default useProducts;
