@@ -12,10 +12,10 @@ const useUserStore = create((set) => ({
       user: userData,
       role: userData?.role || null,
     })),
-    setEmail: (email) =>
-        set(() => ({
-          email: email
-        })),
+  setEmail: (email) =>
+    set(() => ({
+      email: email,
+    })),
 
   setToken: (token) =>
     set(() => {
@@ -26,6 +26,9 @@ const useUserStore = create((set) => ({
   logout: () => {
     localStorage.removeItem("authToken");
     set({ user: null, token: null });
+    setTimeout(() => {
+      window.location.reload();
+    }, 0);
   },
 
   // Action to clear user (e.g., logout)

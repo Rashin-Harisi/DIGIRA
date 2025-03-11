@@ -4,8 +4,10 @@ import SellerPersonalInfo from "./SellerPersonalInfo";
 import ProductCardInSellerPage from "./ProductCardInSellerPage";
 import SubmitProduct from "./SubmitProduct";
 import useProducts from "../hooks/useProducts"
+import useUserStore from "../store/userStore"
 
 const SellerPage = ({ user, sellerMenu }) => {
+  const logout = useUserStore((state) => state.logout);
   const {products} = useProducts();
   const [index, setIndex] = useState(1);
   const [passwordChanging, setPasswordChanging] = useState({
@@ -45,8 +47,9 @@ const SellerPage = ({ user, sellerMenu }) => {
   useEffect(() => {
     if (index === 6) {
       console.log("logged out");
+      logout();
     }
-  }, [index]);
+  }, [index,logout]);
   return (
     <div className="flex gap-5 ">
       <div className="flex flex-col border rounded-xl">
@@ -60,7 +63,7 @@ const SellerPage = ({ user, sellerMenu }) => {
           <div
             key={item.id}
             className={clsx(
-              "flex justify-center items-center gap-3 h-[70px] px-5 border-b",
+              "flex justify-center items-center gap-3 h-[70px] px-5 border-b cursor-pointer",
               { "bg-[#ECF39E] text-[#31572C]": index === item.id }
             )}
             onClick={() => clickHandler(item.id)}

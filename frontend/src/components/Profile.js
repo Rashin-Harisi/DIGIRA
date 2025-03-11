@@ -10,6 +10,7 @@ import { TbNewSection } from "react-icons/tb";
 import UserPage from "./UserPage";
 import SellerPage from "./SellerPage";
 import useUser from "../hooks/useUser";
+import AdminPage from "./AdminPage"
 
 
 const userMenu = [
@@ -37,6 +38,7 @@ const Profile = () => {
       {user?.role === "BUSINESS_MAN" && (
         <SellerPage user={user} sellerMenu={sellerMenu} />
       )}
+      {user?.role === "ADMIN" && <AdminPage />}
     </>
   );
 };

@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { calculatePrice } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/userStore";
+import AddToCart from "./AddToCart";
 
 const ProductCardInHomePage = (product) => {
   const userStore = useUserStore((state) => state.user);
@@ -13,7 +14,6 @@ const ProductCardInHomePage = (product) => {
   const [heartClicked, setHeartClicked] = useState(false);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (userStore) {
       const result = productN.stars.includes(userStore._id);
@@ -27,21 +27,21 @@ const ProductCardInHomePage = (product) => {
 
   const heartHandle = async () => {
     setHeartClicked((prevState) => !prevState);
-      const result = productN.stars.includes(userStore?._id);
-      var status;
-      if (!result && !heartClicked) {
-        productN.stars.push(userStore?._id);
-        status = "liked"
-        console.log("the id is added", productN.stars);
-      } else if (result && heartClicked) {
-        const index = productN.stars.indexOf(userStore?._id);
-        if (index !== -1) {
-          productN.stars.splice(index, 1);
-        }
-        status = "unLiked"
-        console.log("The id is removed", productN.stars);
+    const result = productN.stars.includes(userStore?._id);
+    var status;
+    if (!result && !heartClicked) {
+      productN.stars.push(userStore?._id);
+      status = "liked";
+      console.log("the id is added", productN.stars);
+    } else if (result && heartClicked) {
+      const index = productN.stars.indexOf(userStore?._id);
+      if (index !== -1) {
+        productN.stars.splice(index, 1);
       }
-      if(userStore){
+      status = "unLiked";
+      console.log("The id is removed", productN.stars);
+    }
+    if (userStore) {
       const response = await fetch("http://localhost:5001/likeHandle", {
         method: "POST",
         body: JSON.stringify({
@@ -59,12 +59,12 @@ const ProductCardInHomePage = (product) => {
       } else {
         console.log("there is error in handling like in database.");
       }
-    }else{
-      console.log("there is no user.")
-    }    
+    } else {
+      console.log("there is no user.");
+    }
   };
   return (
-    <div className="border w-[30%] min-h-[400px] relative rounded-xl bg-white text-black">
+    <div className="border w-[30%] min-h-[450px] relative flex flex-col rounded-xl bg-white text-black">
       <button onClick={heartHandle} className="absolute top-3 left-3">
         {heartClicked ? (
           <FaHeart
@@ -75,15 +75,15 @@ const ProductCardInHomePage = (product) => {
         )}
       </button>
       {productN.discount !== "0" && (
-        <span className="absolute -top-3 -right-3 border border-red-500 rounded-full w-10 h-10 bg-red-500 text-black z-10 flex justify-center items-center font-bold">
+        <span className="absolute z-10 flex items-center justify-center w-10 h-10 font-bold text-black bg-red-500 border border-red-500 rounded-full -top-3 -right-3">
           %{productN.discount}
         </span>
       )}
-      <div className="absolute top-3 left-10 flex gap-4">
+      <div className="flex gap-4 mt-3 ml-10 min-h-[200px] w-[85%] mx-auto">
         <img
           src={productN.images[0]}
           alt="productImage"
-          className="rounded-xl"
+          className="border border-gray-300 shadow-md rounded-xl"
           width={200}
           height={200}
           onClick={() => navigate(`/${productN._id}`)}
@@ -96,22 +96,22 @@ const ProductCardInHomePage = (product) => {
                   key={index}
                   src={image}
                   alt="productImages"
-                  width={50}
-                  height={50}
-                  className="rounded-xl"
+                  width={70}
+                  height={70}
+                  className="border border-gray-300 shadow-md rounded-xl"
                 />
               )
           )}
         </div>
       </div>
       <div
-        className="absolute bottom-5 flex flex-col justify-between w-full px-8 "
+        className="flex flex-col justify-between w-[90%] mx-auto mt-5"
         onClick={() => navigate(`/${productN._id}`)}
       >
-        <p className="text-xl">{productName} ...</p>
+        <p className="text-lg">{productName} ...</p>
         <div className="flex">
           <p
-            className={clsx(" text-xl", {
+            className={clsx(" text-lg", {
               "line-through opacity-80": productN.discount !== "0",
             })}
           >
@@ -119,12 +119,15 @@ const ProductCardInHomePage = (product) => {
             <span> €</span>
           </p>
           {productN.discount !== "0" && (
-            <p className="ml-2 text-xl">
+            <p className="ml-2 text-lg">
               {calculatePrice(productN.price, productN.discount)}
               <span> €</span>
             </p>
           )}
         </div>
+      </div>
+      <div className=" w-[200px] mx-auto">
+        <AddToCart product={productN}/>
       </div>
     </div>
   );

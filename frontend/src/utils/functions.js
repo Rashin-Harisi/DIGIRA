@@ -8,3 +8,9 @@ export const getRandomProducts = (productArray, count) => {
       .sort(() => Math.random() - 0.5) 
       .slice(0, count); 
   };
+
+
+export const totalQuantity = (cart)=>{
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+
+}

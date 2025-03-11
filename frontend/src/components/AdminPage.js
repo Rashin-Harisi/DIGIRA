@@ -4,10 +4,13 @@ import clsx from "clsx";
 import WaitingList from "./WaitingList";
 import SellerList from "./SellerList";
 
+
+
 const AdminPage = () => {
   const [waitingListClicked, setWaitingListClicked] = useState(true);
   const [sellerClicked, setSellerClicked] = useState(false);
   const user = useUser();
+  
  
   if (user?.role !== "ADMIN") {
     return <p>You are not authorized. </p>;
@@ -22,7 +25,7 @@ const AdminPage = () => {
           </p>
           <p
             className={clsx(`text-red-500 mt-[20px]`, {
-              "text-green-400": user.isVerified,
+              "text-green-400": user?.isVerified,
             })}
           >
             Verified
@@ -49,6 +52,7 @@ const AdminPage = () => {
             >
               Sellers
             </button>
+           
           </div>
         </div>
       </div>

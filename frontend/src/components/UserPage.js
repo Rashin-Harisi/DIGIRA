@@ -3,8 +3,12 @@ import clsx from "clsx";
 import PersonalInfo from "./PersonalInfo";
 import ProductCardInHomePage from "./ProductCardInHomePage";
 import useProducts from "../hooks/useProducts";
+import useUserStore from "../store/userStore"
+import { useNavigate } from "react-router-dom";
 
 const UserPage = ({ user, userMenu }) => {
+  const navigate = useNavigate()
+  const logout = useUserStore((state) => state.logout);
   const {products} = useProducts();
   const [index, setIndex] = useState(1);
   const [passwordChanging, setPasswordChanging] = useState({
@@ -48,8 +52,10 @@ const UserPage = ({ user, userMenu }) => {
   useEffect(()=>{
     if(index === 5){
         console.log("logged out");
+        logout();
+        navigate('/signin')
     }
-  },[index])
+  },[index,logout,navigate])
 
   return (
     <div className="flex gap-5 ">
@@ -64,7 +70,7 @@ const UserPage = ({ user, userMenu }) => {
           <div
             key={item.id}
             className={clsx(
-              "flex justify-center items-center gap-3 h-[70px] px-5 border-b",
+              "flex justify-center items-center gap-3 h-[70px] px-5 border-b cursor-pointer",
               { "bg-[#ECF39E] text-[#31572C]": index === item.id }
             )}
             onClick={() => clickHandler(item.id)}

@@ -3,7 +3,7 @@ var Schema = mongoose1.Schema;
 
 
 const connectDB = async () => {
-    const uriAWS = "mongodb://16.171.199.82:27017/mydatabase";
+    const uriAWS = "mongodb://16.170.212.152:27017/mydatabase";
     const uriLocal = "mongodb://192.168.0.94:27017/mydatabase";
 
 
