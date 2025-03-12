@@ -1,46 +1,74 @@
 import { create } from "zustand";
+import { totalQuantity } from "../utils/functions";
 
 
 const cartStore = create((set,get)=>({
     cart : JSON.parse(localStorage.getItem("cart")) || {},
+    quantity : 0,
+    
+    updateQuantity: (userEmail) => {
+        const userCart = get().cart[userEmail] || {};
+        const newQuantity =totalQuantity(userCart)
+        set({ quantity: newQuantity });
+      },
 
     addToCart: (userEmail, productId)=>{
-        const {cart} = get();
-        if(!cart[userEmail]){
-            cart[userEmail] = {}
+        const prevCart = get().cart;
+        const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
+
+        if(!newCart[userEmail]){
+            newCart[userEmail] = {}
         }
-        if(!cart[userEmail][productId]){
-            cart[userEmail][productId] = 1
+        if(!newCart[userEmail][productId]){
+            newCart[userEmail][productId] = 1
+
         }else{
-            cart[userEmail][productId] ++
+            newCart[userEmail][productId] ++
         }
-        localStorage.setItem("cart",JSON.stringify(cart))
-        set({cart})
+        localStorage.setItem("cart",JSON.stringify(newCart))
+        set({cart: newCart})
+        get().updateQuantity(userEmail);
+        console.log("Updated cart in Zustand:", newCart);
     },
     increase: (userEmail, productId)=>{
-        const {cart} = get();
-        cart[userEmail][productId] ++;
-        localStorage.setItem("cart",JSON.stringify(cart))
-        set({cart})
+        const prevCart = get().cart;
+        const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
+
+        newCart[userEmail][productId] ++;
+        localStorage.setItem("cart",JSON.stringify(newCart))
+        set({cart : newCart})
+        get().updateQuantity(userEmail);
+        console.log("Updated cart in Zustand(increase):", newCart);
     },
     decrease: (userEmail, productId)=>{
-        const {cart} = get();
-        cart[userEmail][productId] --;
-        localStorage.setItem("cart",JSON.stringify(cart))
-        set({cart})
+        const prevCart = get().cart;
+        const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
+
+        newCart[userEmail][productId] --;
+        localStorage.setItem("cart",JSON.stringify(newCart))
+        set({cart: newCart})
+        get().updateQuantity(userEmail);
+        console.log("Updated cart in Zustand(decrease):", newCart);
     },
     deleteFromCart: (userEmail,productId)=>{
-        const {cart} = get();
-        delete cart[userEmail][productId]
-        localStorage.setItem("cart",JSON.stringify(cart))
-        set({cart})
+        const prevCart = get().cart;
+        const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
+        
+        delete newCart[userEmail][productId]
+        localStorage.setItem("cart",JSON.stringify(newCart))
+        set({cart: newCart})
+        get().updateQuantity(userEmail);
+        console.log("Updated cart in Zustand(delete):", newCart);
     },
     clearCart:(userEmail)=>{
-        const { cart } = get();
-        if (cart[userEmail]) {
-          delete cart[userEmail];
-          localStorage.setItem("cart", JSON.stringify(cart));
-          set({ cart })
+        const prevCart = get().cart;
+        const newCart = { ...prevCart };
+
+        if (newCart[userEmail]) {
+          delete newCart[userEmail];
+          localStorage.setItem("cart", JSON.stringify(newCart));
+          set({ cart:newCart })
+          set({quantity: 0})
         };
     },
     getCartForUser:(userEmail)=>{

@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
-import useUser from "../../hooks/useUser";
+import React, {useEffect} from "react";
+//import useUser from "../../hooks/useUser";
 import { CgProfile } from "react-icons/cg";
 import { CiShoppingCart } from "react-icons/ci";
 import clsx from "clsx";
 import useUserStore from "../../store/userStore";
 import { AiOutlineLogout } from "react-icons/ai";
-import { totalQuantity } from "../../utils/functions";
+import cartStore from "../../store/cartStore"
 
 const Layout = ({ children }) => {
   //const user = useUser();
   const logout = useUserStore((state) => state.logout);
   const user = useUserStore((state) => state.user);
-  const [quantity,setQuantity] = useState(0)
-  const userEmail = "rashin.aharisi1991@gmail.com"
-  console.log(quantity)
-  useEffect(()=>{
-    const cart = JSON.parse(localStorage.getItem("cart")) 
-    const userCart = cart[userEmail] || {}
-    const total = Object.values(userCart).reduce((sum, quantity) => sum + quantity, 0)
-    setQuantity(total)
-    
-  },[])
-  //console.log(quantity)
+  const quantity = cartStore((state)=>state.quantity)
+
+  useEffect(() => {
+    if (user?.email) {
+      cartStore.getState().updateQuantity(user.email);
+    } else {
+      cartStore.setState({ quantity: 0 });
+    }
+  }, [user?.email]);
   return (
     <div className="w-[95vw] m-auto my-[20px] bg-[#132A12] px-[10px] flex flex-col">
       <header className="w-full h-[100px] sm:h-[150px] border-b border-[#ECF39E] flex">

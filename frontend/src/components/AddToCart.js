@@ -17,7 +17,7 @@ const AddToCart = ({ product }) => {
   const user = useUserStore((state) => state.user);
   const userEmail = user?.email;
   const getCart = cartStore((state) => state.getCartForUser);
-    //console.log(quantity)
+  
   useEffect(() => {
     const cart = getCart(userEmail);
     if (cart.length !== 0 && cart[productId]) {
