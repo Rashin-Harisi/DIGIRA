@@ -14,3 +14,7 @@ export const totalQuantity = (cart)=>{
     return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
 
 }
+
+export const sumPrices = (prices) => {
+    return prices.reduce((total, price) => total + price, 0);
+  };

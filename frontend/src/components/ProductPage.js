@@ -30,7 +30,7 @@ const ProductPage = () => {
     } else {
       setProductsList(otherProductsOfSeller);
     }
-  }, [products, product.sellerId]);
+  }, [products, product?.sellerId]);
 
   useEffect(() => {
     if (colors && colors.length > 0) {
@@ -38,14 +38,14 @@ const ProductPage = () => {
     } else {
       setColor("");
     }
-  }, [colors]);
+  }, []);
 
   useEffect(() => {
-    const result = product?.stars.includes(user._id);
+    const result = product?.stars.includes(user?._id);
     if (result) {
       setHeartClicked(true);
     }
-  }, [user, product.stars]);
+  }, [user, product?.stars]);
 
   const heartHandle = async () => {
     setHeartClicked((prevState) => !prevState);

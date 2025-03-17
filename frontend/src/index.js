@@ -28,7 +28,6 @@ root.render(
           <Route path="/test" element={<Banner />}/>
           <Route path="/profile" element={<Profile />}/>
           <Route path="/cart" element={<Cart />}/>
-          
         </Routes>
       </Layout>
     </BrowserRouter>

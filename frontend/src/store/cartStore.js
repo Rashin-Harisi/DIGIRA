@@ -6,6 +6,7 @@ const cartStore = create((set,get)=>({
     cart : JSON.parse(localStorage.getItem("cart")) || {},
     quantity : 0,
     
+    
     updateQuantity: (userEmail) => {
         const userCart = get().cart[userEmail] || {};
         const newQuantity =totalQuantity(userCart)
@@ -20,10 +21,10 @@ const cartStore = create((set,get)=>({
             newCart[userEmail] = {}
         }
         if(!newCart[userEmail][productId]){
-            newCart[userEmail][productId] = 1
+            newCart[userEmail][productId] = 1;
 
         }else{
-            newCart[userEmail][productId] ++
+            newCart[userEmail][productId]++
         }
         localStorage.setItem("cart",JSON.stringify(newCart))
         set({cart: newCart})
@@ -34,7 +35,7 @@ const cartStore = create((set,get)=>({
         const prevCart = get().cart;
         const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
 
-        newCart[userEmail][productId] ++;
+        newCart[userEmail][productId]++;
         localStorage.setItem("cart",JSON.stringify(newCart))
         set({cart : newCart})
         get().updateQuantity(userEmail);
@@ -44,7 +45,7 @@ const cartStore = create((set,get)=>({
         const prevCart = get().cart;
         const newCart = { ...prevCart, [userEmail]: { ...prevCart[userEmail] } };
 
-        newCart[userEmail][productId] --;
+        newCart[userEmail][productId]--;
         localStorage.setItem("cart",JSON.stringify(newCart))
         set({cart: newCart})
         get().updateQuantity(userEmail);

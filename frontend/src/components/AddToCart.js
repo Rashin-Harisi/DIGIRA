@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { CiShoppingCart } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import cartStore from "../store/cartStore";
-import useUserStore from "../store/userStore";
+import useUser from "../hooks/useUser";
 
 const AddToCart = ({ product }) => {
   const [addToCart, setAddToCart] = useState(false);
@@ -14,7 +14,7 @@ const AddToCart = ({ product }) => {
   const increase_store = cartStore((state) => state.increase);
   const decrease_store = cartStore((state) => state.decrease);
   const deleteFromCart_store = cartStore((state) => state.deleteFromCart);
-  const user = useUserStore((state) => state.user);
+  const user = useUser()
   const userEmail = user?.email;
   const getCart = cartStore((state) => state.getCartForUser);
   
