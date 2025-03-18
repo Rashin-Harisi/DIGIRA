@@ -15,7 +15,7 @@ const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [deliveryDialog, setDeliveryDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [paied,setPaied] = useState(false)
+  const [paied, setPaied] = useState(false);
   const [receptian, setRecepian] = useState("yourself");
   const [time, setTime] = useState("8-11");
   const [selectedAddress, setSelectedAddress] = useState("");
@@ -42,7 +42,14 @@ const Cart = () => {
     name: "",
     address: "",
   });
-  
+  const [purchaseData, setPurchaseData] = useState({
+    items: [],
+    deliveryInfo: {},
+    totalPrice: "",
+    status: "pending",
+    userEmail: "",
+  });
+
   const cartItems = products.filter((product) =>
     cart.hasOwnProperty(product._id)
   );
@@ -54,17 +61,29 @@ const Cart = () => {
     (item) => calculatePrice(item.price, item.discount) * item.quantity
   );
   const sum = sumPrices(prices);
-  
+
   useEffect(() => {
     setDeliveryInfo({
       date: startDate ? startDate.toISOString().split("T")[0] : "",
       time,
-      phone : newRecepianPhone !== "" ? newRecepianPhone : user?.phone,
-      name: newRecepianName !== "" ? newRecepianName : user?.name, 
-      address :selectedAddress !== "" ? selectedAddress : `${newAddress.number} - ${newAddress.street} - ${newAddress.city} / ${newAddress.postalCode}` ,
+      phone: newRecepianPhone !== "" ? newRecepianPhone : user?.phone,
+      name: newRecepianName !== "" ? newRecepianName : user?.name,
+      address:
+        selectedAddress !== ""
+          ? selectedAddress
+          : `${newAddress.number} - ${newAddress.street} - ${newAddress.city} / ${newAddress.postalCode}`,
     });
-  }, [startDate, time,newRecepianPhone, newRecepianName, user?.name, selectedAddress,newAddress,user?.phone]);
-  
+  }, [
+    startDate,
+    time,
+    newRecepianPhone,
+    newRecepianName,
+    user?.name,
+    selectedAddress,
+    newAddress,
+    user?.phone,
+  ]);
+
   useEffect(() => {
     setCart(getCart(userEmail));
   }, [userEmail]);
@@ -72,30 +91,29 @@ const Cart = () => {
   useEffect(() => {
     setCart(getCart(userEmail));
   }, [quantity]);
- useEffect(()=>{
-  if(paied){
-    const purchaseData = {
-      items: updatedCartItems.map((item) => ({
-        productId: item._id, 
-        name: item.name,  
-        quantity: item.quantity,
-        price: calculatePrice(item.price, item.discount) * item.quantity, 
-      })),
-      deliveryInfo: {
-        date: deliveryInfo.date,
-        time: deliveryInfo.time,
-        phone: deliveryInfo.phone,
-        name: deliveryInfo.name,
-        address: deliveryInfo.address,
-      },
-      totalPrice: sum, 
-      status: "successful", 
-      userEmail: userEmail
-    };
-    console.log("purchaseData",purchaseData)
-    //now you have to store this purchaseData to database - at first create the route then fetch the api route 
-  }
- },[paied])
+
+  useEffect(() => {
+    if (paied) {
+      console.log("purchaseData", purchaseData);
+      fetch("http://localhost:5001/storeCart", {
+        method: "PATCH",
+        body: JSON.stringify(purchaseData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status) {
+            console.log(
+              "Thank you for your trust. We hope to see you soon again."
+            );
+          } else {
+            console.log("OOPS! There is something wrong. Please try again." ,data.message);
+          }
+        });
+    }
+  }, [paied]);
 
   const clearHandle = () => {
     clear(userEmail);
@@ -109,10 +127,33 @@ const Cart = () => {
     const { name, value } = e.target;
     setNewAddress((prev) => ({
       ...prev,
-      [name]: value, 
+      [name]: value,
     }));
   };
 
+  const payHandel = async () => {
+    setConfirmDialog(false);
+    setPaied(true);
+    clear(userEmail);
+    setPurchaseData({
+      items: updatedCartItems.map((item) => ({
+        productId: item._id,
+        name: item.name[0],
+        quantity: item.quantity,
+        price: calculatePrice(item.price, item.discount) * item.quantity,
+      })),
+      deliveryInfo: {
+        date: deliveryInfo.date,
+        time: deliveryInfo.time,
+        phone: deliveryInfo.phone,
+        name: deliveryInfo.name,
+        address: deliveryInfo.address,
+      },
+      totalPrice: sum,
+      status: "successful",
+      userEmail: userEmail,
+    });
+  };
 
   return (
     <>
@@ -353,8 +394,8 @@ const Cart = () => {
               <div className="mt-4">
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={()=>{
-                    setConfirmDialog(true)
+                  onClick={() => {
+                    setConfirmDialog(true);
                     setDeliveryDialog(false);
                   }}
                 >
@@ -391,16 +432,14 @@ const Cart = () => {
                 <p>Phonenumber: {deliveryInfo.phone}</p>
                 <p>Address: {deliveryInfo.address}</p>
                 <p>Quantity: {quantity}</p>
-                <p>Sum: {sum} <span> € </span></p>
+                <p>
+                  Sum: {sum} <span> € </span>
+                </p>
               </div>
               <div className="mt-4">
                 <Button
                   className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={() => {
-                    setConfirmDialog(false)
-                    setPaied(true)
-                    clear(userEmail);
-                  }}
+                  onClick={payHandel}
                 >
                   Confirm
                 </Button>

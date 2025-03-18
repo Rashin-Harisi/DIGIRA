@@ -25,6 +25,7 @@ const add_new_address = require("./routes/add_new_address")
 const edit_personal_info = require("./routes/edit_personal_info") 
 const remove_address = require("./routes/remove_address")
 const change_password = require("./routes/change_password")
+const store_cart = require("./routes/storeCart")
 
 
 
@@ -54,6 +55,7 @@ app.use('/getSellers', getSellers)
 app.use('/', edit_personal_info)
 app.use("/", remove_address)
 app.use('/',change_password)
+app.use('/', store_cart)
 
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
