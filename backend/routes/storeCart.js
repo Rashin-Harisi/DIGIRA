@@ -10,10 +10,8 @@ app.use(express.json());
 router.patch("/storeCart", async function (req, res, next) {
     const purchaseData = req.body;
     const userEmail = purchaseData.userEmail
-    console.log("userEmail",userEmail)
   try{
     const user = await MyUser.findOne({email : userEmail})
-    console.log("user",user)
     if(!user){
         res.json({success: false, message : "The User cannot be found"});
     }

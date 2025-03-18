@@ -52,3 +52,10 @@ input{
 .input_profile{
   @apply rounded-xl pl-3
 }
+
+.p_orderCard{
+  @apply italic
+}
+.span_orderCard{
+  @apply text-gray-300 
+}

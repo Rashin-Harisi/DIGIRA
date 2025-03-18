@@ -5,6 +5,7 @@ import ProductCardInHomePage from "./ProductCardInHomePage";
 import useProducts from "../hooks/useProducts";
 import useUserStore from "../store/userStore"
 import { useNavigate } from "react-router-dom";
+import OrderCard from "./OrderCard";
 
 const UserPage = ({ user, userMenu }) => {
   const navigate = useNavigate()
@@ -82,7 +83,11 @@ const UserPage = ({ user, userMenu }) => {
       </div>
       <div className="flex-grow">
         {index === 1 && <PersonalInfo user={user} />}
-        {index === 2 && <div> previous purchase</div>}
+        {index === 2 && <div className="flex flex-col gap-3">
+            {user.orders.map((order,index)=>(
+              <div key={index} ><OrderCard order={order} /></div>
+            ))}
+          </div>}
         {index === 3 && (
           <div className="flex flex-wrap justify-around gap-5">
             {productsList.length !== 0 &&

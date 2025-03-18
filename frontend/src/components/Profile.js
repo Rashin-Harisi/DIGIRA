@@ -31,7 +31,7 @@ const sellerMenu = [
 
 const Profile = () => {
   const user = useUser();
-  //console.log(user)
+  console.log(user)
   return (
     <>
       {user?.role === "USER" && <UserPage user={user} userMenu={userMenu} />}
