@@ -13,6 +13,7 @@ import HomePage from "./components/HomePage";
 import ProductPage from "./components/ProductPage";
 import Profile from "./components/Profile";
 import Cart from "./components/Cart";
+import ChangePassword from "./components/ChangePassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -12,6 +12,7 @@ const HomePage = () => {
   const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
  
+  
   useEffect(()=>{
     const user = (async()=>{ 
       const userInfo = await fetchUserProfile()
