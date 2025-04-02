@@ -78,8 +78,8 @@ const Layout = ({ children }) => {
         </div>
       </header>
       <div className="flex-grow py-4">{children}</div>
-      <footer className="w-full h-[50px] border-t border-[#ECF39E]">
-        footer
+      <footer className="w-full h-[50px] border-t border-[#ECF39E] text-center py-3 italic">
+        The website has developed by <span className="text-white ">Rashin A.Harisi</span>
       </footer>
     </div>
   );

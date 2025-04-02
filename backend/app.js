@@ -26,6 +26,7 @@ const edit_personal_info = require("./routes/edit_personal_info")
 const remove_address = require("./routes/remove_address")
 const change_password = require("./routes/change_password")
 const store_cart = require("./routes/storeCart")
+const password_recovery = require("./routes/password_recovery")
 
 
 
@@ -56,6 +57,7 @@ app.use('/', edit_personal_info)
 app.use("/", remove_address)
 app.use('/',change_password)
 app.use('/', store_cart)
+app.use('/',password_recovery)
 
 app.post('/signup', signup)
 app.post('/verifyotp', verifyotp)
@@ -67,6 +69,7 @@ app.post('/getUser', getUser);
 app.post('/likeHandle', like_handle)
 app.post('/addNewAddress', add_new_address)
 app.post('/getProduct', getProduct)
+app.post('/passwordRecovery',password_recovery)
 
 
 
